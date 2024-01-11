@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3 uid="uid://bd4ofrsq77dol"]
+
+[ext_resource type="Script" path="res://spline.gd" id="1_yduhj"]
+
+[node name="spline" type="Line2D"]
+script = ExtResource("1_yduhj")
+t = PackedVector2Array()
+spline_points = PackedVector2Array()
+
+[node name="line" type="Line2D" parent="."]
+
+[node name="Label" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "asda"
+
+[connection signal="draw" from="." to="." method="_on_draw"]
+[connection signal="item_rect_changed" from="." to="." method="_on_item_rect_changed"]

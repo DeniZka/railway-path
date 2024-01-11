@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3 uid="uid://drjpfjr2ige62"]
+
+[ext_resource type="Script" path="res://drag_point.gd" id="1_j1ugj"]
+
+[node name="DragPoint" type="Control"]
+custom_minimum_size = Vector2(8, 8)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 8.0
+offset_bottom = 8.0
+pivot_offset = Vector2(4, 4)
+mouse_default_cursor_shape = 2
+script = ExtResource("1_j1ugj")
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(0, 0, 8, 0, 8, 8, 0, 8)
+
+[connection signal="gui_input" from="." to="." method="_on_gui_input"]
