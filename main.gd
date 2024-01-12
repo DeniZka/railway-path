@@ -10,6 +10,7 @@ const DIVIDER = 6.0
 var tension = 1.0
 
 func _ready():
+	$RigidBody2D.set_follow(follow)
 	var in_ : Vector2 = path.curve.get_point_in(0)
 	var pt2 : Vector2 = $Path2D.curve.get_point_position(2)
 	var pt2i : Vector2= $Path2D.curve.get_point_in(2)
@@ -37,24 +38,25 @@ func _ready():
 		
 		
 func _physics_process(delta):
-	
-	var rot = $Path2D/PathFollow2D.rotation
-	$RigidBody2D.set_rot(rot)
-
-	var vel_dist : float = 0
-	#if $RigidBody2D.constant_force.length_squared() > 0:
-	vel_dist = $RigidBody2D.linear_velocity.length()
-	#elif $RigidBody2D.constant_force.length_squared() < 0: 
-	vel_dist = -$RigidBody2D.linear_velocity.length()
-	follow.progress += vel_dist * delta
-	$RigidBody2D.set_pos(follow.position)
-	if Input.is_key_label_pressed(KEY_UP):
-		$RigidBody2D.add_force(1000)
-		#$RigidBody2D.apply_force(Vector2(1000, 0).rotated(rot))
-		#$RigidBody2D2.apply_force(Vector2(1000, 0).rotated(rot))
-	if Input.is_key_label_pressed(KEY_A):
-		$RigidBody2D2.apply_torque(1000)
-	
+	##get_calculated linear velocity
+	#var vel_dist : float = 0
+	#vel_dist = $RigidBody2D.linear_velocity.length()
+	##TODO: check sign!!!
+	#
+	##move PathFollow along path curve
+	#follow.progress += vel_dist * delta
+	##get target rotation
+	#$RigidBody2D.set_target_rot($Path2D/PathFollow2D.rotation)
+	##get-set target position
+	#$RigidBody2D.set_pos(follow.position)
+	#
+	#if Input.is_key_label_pressed(KEY_UP):
+		#$RigidBody2D.add_force(1000)
+		##$RigidBody2D.apply_force(Vector2(1000, 0).rotated(rot))
+		##$RigidBody2D2.apply_force(Vector2(1000, 0).rotated(rot))
+	#if Input.is_key_label_pressed(KEY_A):
+		#$RigidBody2D2.apply_torque(1000)
+	pass
 	
 func _process(delta):
 	#follow.progress += delta * 20

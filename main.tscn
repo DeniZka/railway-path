@@ -7,9 +7,9 @@
 
 [sub_resource type="Curve2D" id="Curve2D_mpf2r"]
 _data = {
-"points": PackedVector2Array(-102.872, 8.57942, 137.493, -11.4668, 245, 182, -103.313, -46.6171, 103.313, 46.6171, 536, 169, -55.4365, -100.794, 55.4365, 100.794, 534, 325, -126.192, 2.84732, 204.246, -4.60847, 674, 465, -30.2381, 109.613, 35.8769, -130.054, 970, 286, 59.2163, 90.7143, 0, 0, 890, 141, 0, 0, 0, 0, 730, 65)
+"points": PackedVector2Array(-102.872, 8.57942, 137.493, -11.4668, 245, 182, -103.313, -46.6171, 103.313, 46.6171, 536, 169, -55.4365, -100.794, 55.4365, 100.794, 534, 325, -126.192, 2.84732, 204.246, -4.60847, 705, 596, -30.2381, 109.613, 35.8769, -130.054, 1072, 382, 59.2163, 90.7143, 0, 0, 972, 95, 72.1628, 5.34539, -72.1628, -5.34539, 754, 20, 1.7818, -34.745, -1.7818, 34.745, 851, 157, -35.6359, -24.9452, 35.6359, 24.9452, 698, 304, 3.56359, -44.5449, -3.56359, 44.5449, 906, 283, 48.1085, 3.56359, -48.1085, -3.56359, 721, 408, 90.8717, -4.45449, -90.8717, 4.45449, 475, 552, 76.0859, 30.7013, -76.0859, -30.7013, 316, 427, 16.9271, 50.7812, -16.9271, -50.7812, 37, 453, 0, -296.334, 0, 296.334, 143, 195, -60.5811, 22.2725, 60.5811, -22.2725, 345, 279, 4.45449, -42.7631, -4.45449, 42.7631, 420, 306, -58.7993, -2.6727, 58.7993, 2.6727, 711, 514, -14.2544, 31.1815, 14.2544, -31.1815, 983, 357)
 }
-point_count = 7
+point_count = 19
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_w6ryj"]
 size = Vector2(14, 16)
@@ -28,8 +28,11 @@ curve = SubResource("Curve2D_mpf2r")
 [node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
 position = Vector2(245, 182)
 rotation = -0.0832066
+cubic_interp = false
+loop = false
 
 [node name="Icon2" type="Sprite2D" parent="Path2D/PathFollow2D"]
+modulate = Color(0, 0.74902, 0.815686, 1)
 rotation = 1.654
 scale = Vector2(0.126422, 0.126422)
 texture = ExtResource("1_b3wk4")
@@ -38,14 +41,26 @@ texture = ExtResource("1_b3wk4")
 position = Vector2(245, 182)
 mass = 2.22
 can_sleep = false
+lock_rotation = true
 script = ExtResource("2_rlvbs")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D"]
 shape = SubResource("RectangleShape2D_w6ryj")
 
 [node name="Icon" type="Sprite2D" parent="RigidBody2D"]
+visible = false
 scale = Vector2(0.126422, 0.126422)
 texture = ExtResource("1_b3wk4")
+
+[node name="Line2D" type="Line2D" parent="RigidBody2D"]
+points = PackedVector2Array(0, 0, 0, 0)
+width = 2.0
+default_color = Color(0.87451, 0.592157, 1, 1)
+
+[node name="Line2D2" type="Line2D" parent="RigidBody2D"]
+points = PackedVector2Array(0, 0, 0, 0)
+width = 2.0
+default_color = Color(0, 0.827451, 0.823529, 1)
 
 [node name="RigidBody2D2" type="RigidBody2D" parent="."]
 position = Vector2(363, 172.78)
@@ -67,6 +82,36 @@ position = Vector2(523, 272)
 shape = SubResource("RectangleShape2D_w6ryj")
 
 [node name="Icon" type="Sprite2D" parent="RigidBody2D3"]
+scale = Vector2(0.126422, 0.126422)
+texture = ExtResource("1_b3wk4")
+
+[node name="RigidBody2D4" type="RigidBody2D" parent="."]
+position = Vector2(695.53, 272)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D4"]
+shape = SubResource("RectangleShape2D_w6ryj")
+
+[node name="Icon" type="Sprite2D" parent="RigidBody2D4"]
+scale = Vector2(0.126422, 0.126422)
+texture = ExtResource("1_b3wk4")
+
+[node name="RigidBody2D5" type="RigidBody2D" parent="."]
+position = Vector2(652.58, 456.11)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D5"]
+shape = SubResource("RectangleShape2D_w6ryj")
+
+[node name="Icon" type="Sprite2D" parent="RigidBody2D5"]
+scale = Vector2(0.126422, 0.126422)
+texture = ExtResource("1_b3wk4")
+
+[node name="RigidBody2D6" type="RigidBody2D" parent="."]
+position = Vector2(491.96, 397.72)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D6"]
+shape = SubResource("RectangleShape2D_w6ryj")
+
+[node name="Icon" type="Sprite2D" parent="RigidBody2D6"]
 scale = Vector2(0.126422, 0.126422)
 texture = ExtResource("1_b3wk4")
 
