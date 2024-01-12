@@ -3,14 +3,22 @@ extends Node2D
 const DIVIDER = 6.0
 
 @onready var path : Path2D = $Path2D
-@onready var follow : PathFollow2D = $Path2D/PathFollow2D
+@onready var follow : PathFollow2D = $Path2D/TrainPath
 @onready var line : Line2D = $Line2D
 @onready var points : Node2D = $DragPoints
 @onready var drag_poin_scene : PackedScene = load("res://drag_point.tscn")
+@onready var train : Node2D =  $Train
+@onready var loco : RigidBody2D = $Train/Loco
+@onready var car : RigidBody2D = $Train/Car
 var tension = 1.0
 
 func _ready():
-	$RigidBody2D.set_follow(follow)
+	loco.set_follow(follow)
+	loco.active = true
+	loco.connect_car($Train/Car.name)
+	car.set_follow($Path2D/CarPath)
+	car.connect_car($Train/Car2.name)
+	$Train/Car2.set_follow($Path2D/CarPath2)
 	var in_ : Vector2 = path.curve.get_point_in(0)
 	var pt2 : Vector2 = $Path2D.curve.get_point_position(2)
 	var pt2i : Vector2= $Path2D.curve.get_point_in(2)
@@ -35,48 +43,11 @@ func _ready():
 			point.set_index(i)
 			point.my_set_position(path.curve.get_point_position(i))
 			point.point_moved.connect(_on_point_moved)
-		
-		
-func _physics_process(delta):
-	##get_calculated linear velocity
-	#var vel_dist : float = 0
-	#vel_dist = $RigidBody2D.linear_velocity.length()
-	##TODO: check sign!!!
-	#
-	##move PathFollow along path curve
-	#follow.progress += vel_dist * delta
-	##get target rotation
-	#$RigidBody2D.set_target_rot($Path2D/PathFollow2D.rotation)
-	##get-set target position
-	#$RigidBody2D.set_pos(follow.position)
-	#
-	#if Input.is_key_label_pressed(KEY_UP):
-		#$RigidBody2D.add_force(1000)
-		##$RigidBody2D.apply_force(Vector2(1000, 0).rotated(rot))
-		##$RigidBody2D2.apply_force(Vector2(1000, 0).rotated(rot))
-	#if Input.is_key_label_pressed(KEY_A):
-		#$RigidBody2D2.apply_torque(1000)
-	pass
-	
-func _process(delta):
-	#follow.progress += delta * 20
-	#print(follow.progress)
-	pass
 
-func _input(event):
-	#if event is InputEventKey:
-		#if event.keycode == KEY_W:
-			#if event.pressed:
-				#$RigidBody2D.add_force(100)
-			#else:
-				#$RigidBody2D.add_force(0)
-		#if event.keycode == KEY_S:
-			#if event.pressed:
-				#$RigidBody2D.add_force(-100)
-			#else:
-				#$RigidBody2D.add_force(0)
+func _on_dist_ready(dist: float):
+	car.set_dist(dist)
 	pass
-
+		
 func _on_point_moved(idx: int, pos: Vector2):
 	path.curve.set_point_position(idx, pos)
 	#TODO: recalculate inputs and outputs

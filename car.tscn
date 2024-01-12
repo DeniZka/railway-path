@@ -1,0 +1,36 @@
+[gd_scene load_steps=4 format=3 uid="uid://d4em25qe6joub"]
+
+[ext_resource type="Script" path="res://RigidBody2D.gd" id="1_0ipld"]
+[ext_resource type="Texture2D" uid="uid://dghdo7pwjry8l" path="res://icon.svg" id="2_521kt"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_w6ryj"]
+size = Vector2(14, 16)
+
+[node name="Car" type="RigidBody2D"]
+mass = 2.22
+can_sleep = false
+lock_rotation = true
+script = ExtResource("1_0ipld")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_w6ryj")
+
+[node name="Icon" type="Sprite2D" parent="."]
+rotation = 1.5708
+scale = Vector2(0.126422, 0.126422)
+texture = ExtResource("2_521kt")
+
+[node name="Line2D" type="Line2D" parent="."]
+points = PackedVector2Array(0, 0, 0, 0)
+width = 2.0
+default_color = Color(0.87451, 0.592157, 1, 1)
+
+[node name="Line2D2" type="Line2D" parent="."]
+points = PackedVector2Array(0, 0, 0, 0)
+width = 2.0
+default_color = Color(0, 0.827451, 0.823529, 1)
+
+[node name="Joint" type="PinJoint2D" parent="."]
+position = Vector2(-12, 0)
+node_a = NodePath("..")
+softness = 2.38

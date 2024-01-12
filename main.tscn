@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://dyl56jenlcs68"]
+[gd_scene load_steps=8 format=3 uid="uid://dyl56jenlcs68"]
 
 [ext_resource type="Texture2D" uid="uid://dghdo7pwjry8l" path="res://icon.svg" id="1_b3wk4"]
 [ext_resource type="Script" path="res://main.gd" id="1_uhihj"]
-[ext_resource type="Script" path="res://RigidBody2D.gd" id="2_rlvbs"]
 [ext_resource type="PackedScene" uid="uid://drjpfjr2ige62" path="res://drag_point.tscn" id="3_0k3cr"]
+[ext_resource type="PackedScene" uid="uid://d4em25qe6joub" path="res://car.tscn" id="3_dtup8"]
+[ext_resource type="PackedScene" uid="uid://cmn6ailxye7sm" path="res://box.tscn" id="4_66pgm"]
 
 [sub_resource type="Curve2D" id="Curve2D_mpf2r"]
 _data = {
@@ -11,8 +12,8 @@ _data = {
 }
 point_count = 19
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_w6ryj"]
-size = Vector2(14, 16)
+[sub_resource type="CircleShape2D" id="CircleShape2D_1qe5q"]
+radius = 81.5843
 
 [node name="main" type="Node2D"]
 script = ExtResource("1_uhihj")
@@ -25,97 +26,105 @@ antialiased = true
 [node name="Path2D" type="Path2D" parent="."]
 curve = SubResource("Curve2D_mpf2r")
 
-[node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
-position = Vector2(245, 182)
-rotation = -0.0832066
+[node name="TrainPath" type="PathFollow2D" parent="Path2D"]
+position = Vector2(318.2, 171.758)
+rotation = -0.190726
+progress = 73.95
 cubic_interp = false
 loop = false
 
-[node name="Icon2" type="Sprite2D" parent="Path2D/PathFollow2D"]
+[node name="Icon2" type="Sprite2D" parent="Path2D/TrainPath"]
 modulate = Color(0, 0.74902, 0.815686, 1)
 rotation = 1.654
 scale = Vector2(0.126422, 0.126422)
 texture = ExtResource("1_b3wk4")
 
-[node name="RigidBody2D" type="RigidBody2D" parent="."]
-position = Vector2(245, 182)
-mass = 2.22
-can_sleep = false
-lock_rotation = true
-script = ExtResource("2_rlvbs")
+[node name="CarPath" type="PathFollow2D" parent="Path2D"]
+position = Vector2(296.346, 175.658)
+rotation = -0.161611
+progress = 51.75
+cubic_interp = false
+loop = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D"]
-shape = SubResource("RectangleShape2D_w6ryj")
-
-[node name="Icon" type="Sprite2D" parent="RigidBody2D"]
-visible = false
+[node name="Icon2" type="Sprite2D" parent="Path2D/CarPath"]
+modulate = Color(0, 0.74902, 0.815686, 1)
+rotation = 1.654
 scale = Vector2(0.126422, 0.126422)
 texture = ExtResource("1_b3wk4")
 
-[node name="Line2D" type="Line2D" parent="RigidBody2D"]
-points = PackedVector2Array(0, 0, 0, 0)
-width = 2.0
-default_color = Color(0.87451, 0.592157, 1, 1)
+[node name="CarPath2" type="PathFollow2D" parent="Path2D"]
+position = Vector2(271.455, 179.245)
+rotation = -0.124195
+progress = 26.6
+cubic_interp = false
+loop = false
 
-[node name="Line2D2" type="Line2D" parent="RigidBody2D"]
-points = PackedVector2Array(0, 0, 0, 0)
-width = 2.0
-default_color = Color(0, 0.827451, 0.823529, 1)
-
-[node name="RigidBody2D2" type="RigidBody2D" parent="."]
-position = Vector2(363, 172.78)
-mass = 6.89
-can_sleep = false
-constant_torque = -64.655
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D2"]
-shape = SubResource("RectangleShape2D_w6ryj")
-
-[node name="Icon" type="Sprite2D" parent="RigidBody2D2"]
+[node name="Icon2" type="Sprite2D" parent="Path2D/CarPath2"]
+modulate = Color(0, 0.74902, 0.815686, 1)
+rotation = 1.654
 scale = Vector2(0.126422, 0.126422)
 texture = ExtResource("1_b3wk4")
 
-[node name="RigidBody2D3" type="RigidBody2D" parent="."]
+[node name="CarPath3" type="PathFollow2D" parent="Path2D"]
+position = Vector2(296.346, 175.658)
+rotation = -0.161611
+progress = 51.75
+cubic_interp = false
+loop = false
+
+[node name="Icon2" type="Sprite2D" parent="Path2D/CarPath3"]
+modulate = Color(0, 0.74902, 0.815686, 1)
+rotation = 1.654
+scale = Vector2(0.126422, 0.126422)
+texture = ExtResource("1_b3wk4")
+
+[node name="Train" type="Node2D" parent="."]
+
+[node name="Loco" parent="Train" instance=ExtResource("3_dtup8")]
+position = Vector2(318.2, 171.758)
+
+[node name="Car" parent="Train" instance=ExtResource("3_dtup8")]
+position = Vector2(296.346, 175.658)
+mass = 6.47
+
+[node name="Car2" parent="Train" instance=ExtResource("3_dtup8")]
+position = Vector2(271.455, 179.245)
+mass = 6.47
+
+[node name="Boxes" type="Node2D" parent="."]
+
+[node name="Box" parent="Boxes" instance=ExtResource("4_66pgm")]
+position = Vector2(355, 173)
+
+[node name="Box2" parent="Boxes" instance=ExtResource("4_66pgm")]
+position = Vector2(531, 237)
+
+[node name="Box3" parent="Boxes" instance=ExtResource("4_66pgm")]
+position = Vector2(539, 256)
+
+[node name="Box4" parent="Boxes" instance=ExtResource("4_66pgm")]
 position = Vector2(523, 272)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D3"]
-shape = SubResource("RectangleShape2D_w6ryj")
+[node name="Box5" parent="Boxes" instance=ExtResource("4_66pgm")]
+position = Vector2(539, 291)
 
-[node name="Icon" type="Sprite2D" parent="RigidBody2D3"]
-scale = Vector2(0.126422, 0.126422)
-texture = ExtResource("1_b3wk4")
+[node name="Box6" parent="Boxes" instance=ExtResource("4_66pgm")]
+position = Vector2(409, 272)
 
-[node name="RigidBody2D4" type="RigidBody2D" parent="."]
-position = Vector2(695.53, 272)
+[node name="Box7" parent="Boxes" instance=ExtResource("4_66pgm")]
+position = Vector2(780, 396)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D4"]
-shape = SubResource("RectangleShape2D_w6ryj")
-
-[node name="Icon" type="Sprite2D" parent="RigidBody2D4"]
-scale = Vector2(0.126422, 0.126422)
-texture = ExtResource("1_b3wk4")
-
-[node name="RigidBody2D5" type="RigidBody2D" parent="."]
-position = Vector2(652.58, 456.11)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D5"]
-shape = SubResource("RectangleShape2D_w6ryj")
-
-[node name="Icon" type="Sprite2D" parent="RigidBody2D5"]
-scale = Vector2(0.126422, 0.126422)
-texture = ExtResource("1_b3wk4")
-
-[node name="RigidBody2D6" type="RigidBody2D" parent="."]
-position = Vector2(491.96, 397.72)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D6"]
-shape = SubResource("RectangleShape2D_w6ryj")
-
-[node name="Icon" type="Sprite2D" parent="RigidBody2D6"]
-scale = Vector2(0.126422, 0.126422)
-texture = ExtResource("1_b3wk4")
+[node name="Box8" parent="Boxes" instance=ExtResource("4_66pgm")]
+position = Vector2(681, 307)
 
 [node name="DragPoints" type="Node2D" parent="."]
 
 [node name="DragPoint" parent="DragPoints" instance=ExtResource("3_0k3cr")]
 visible = false
+
+[node name="Area2D" type="Area2D" parent="."]
+gravity_space_override = 3
+gravity_point = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_1qe5q")
