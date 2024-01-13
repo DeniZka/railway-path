@@ -15,10 +15,11 @@ var tension = 1.0
 func _ready():
 	loco.set_follow(follow)
 	loco.active = true
-	loco.connect_car($Train/Car.name)
+	#loco.connect_car($Train/Car.name)
 	car.set_follow($Path2D/CarPath)
-	car.connect_car($Train/Car2.name)
+	#car.connect_car($Train/Car2.name)
 	$Train/Car2.set_follow($Path2D/CarPath2)
+	loco.direction = 1
 	var in_ : Vector2 = path.curve.get_point_in(0)
 	var pt2 : Vector2 = $Path2D.curve.get_point_position(2)
 	var pt2i : Vector2= $Path2D.curve.get_point_in(2)
@@ -94,3 +95,13 @@ func _on_point_moved(idx: int, pos: Vector2):
 	line.points = path.curve.get_baked_points()
 	
 
+
+
+func _on_spin_box_value_changed(value):
+	$Train/Loco.set_break(value)
+	pass # Replace with function body.
+
+
+func _on_option_button_item_selected(index):
+	$Train/Loco.direction = index -1
+	pass # Replace with function body.

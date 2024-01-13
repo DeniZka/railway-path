@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://dyl56jenlcs68"]
+[gd_scene load_steps=9 format=3 uid="uid://dyl56jenlcs68"]
 
 [ext_resource type="Texture2D" uid="uid://dghdo7pwjry8l" path="res://icon.svg" id="1_b3wk4"]
 [ext_resource type="Script" path="res://main.gd" id="1_uhihj"]
@@ -8,12 +8,15 @@
 
 [sub_resource type="Curve2D" id="Curve2D_mpf2r"]
 _data = {
-"points": PackedVector2Array(-102.872, 8.57942, 137.493, -11.4668, 245, 182, -103.313, -46.6171, 103.313, 46.6171, 536, 169, -55.4365, -100.794, 55.4365, 100.794, 1030, 386, -126.192, 2.84732, 204.246, -4.60847, 705, 596, -30.2381, 109.613, 35.8769, -130.054, 1072, 382, 59.2163, 90.7143, 0, 0, 972, 95, 72.1628, 5.34539, -72.1628, -5.34539, 754, 20, 1.7818, -34.745, -1.7818, 34.745, 851, 157, -35.6359, -24.9452, 35.6359, 24.9452, 698, 304, 3.56359, -44.5449, -3.56359, 44.5449, 906, 283, 48.1085, 3.56359, -48.1085, -3.56359, 721, 408, 90.8717, -4.45449, -90.8717, 4.45449, 475, 552, 76.0859, 30.7013, -76.0859, -30.7013, 316, 427, 16.9271, 50.7812, -16.9271, -50.7812, 37, 453, 0, -296.334, 0, 296.334, 143, 195, -60.5811, 22.2725, 60.5811, -22.2725, 345, 279, 4.45449, -42.7631, -4.45449, 42.7631, 420, 306, -58.7993, -2.6727, 58.7993, 2.6727, 711, 514, -14.2544, 31.1815, 14.2544, -31.1815, 983, 357)
+"points": PackedVector2Array(-102.872, 8.57942, 137.493, -11.4668, 245, 182, -103.313, -46.6171, 103.313, 46.6171, 536, 169, 22.9638, -182.373, -22.9638, 182.373, 1016, 372, -126.192, 2.84732, 204.246, -4.60847, 663, 634, -30.2381, 109.613, 35.8769, -130.054, 1072, 382, 64.8286, 38.5198, -64.8286, -38.5198, 972, 91, 72.1628, 5.34539, -72.1628, -5.34539, 754, 20, 1.7818, -34.745, -1.7818, 34.745, 851, 157, -35.6359, -24.9452, 35.6359, 24.9452, 698, 304, 3.56359, -44.5449, -3.56359, 44.5449, 906, 283, 48.1085, 3.56359, -48.1085, -3.56359, 721, 408, 90.8717, -4.45449, -90.8717, 4.45449, 475, 552, 76.0859, 30.7013, -76.0859, -30.7013, 316, 427, 16.9271, 50.7812, -16.9271, -50.7812, 37, 453, 0, -296.334, 0, 296.334, 143, 195, -60.5811, 22.2725, 60.5811, -22.2725, 345, 279, 4.45449, -42.7631, -4.45449, 42.7631, 420, 306, -58.7993, -2.6727, 58.7993, 2.6727, 711, 514, -14.2544, 31.1815, 14.2544, -31.1815, 983, 357)
 }
 point_count = 19
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_1qe5q"]
 radius = 81.5843
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_icb28"]
+size = Vector2(27.0183, 7.49353)
 
 [node name="main" type="Node2D"]
 script = ExtResource("1_uhihj")
@@ -41,9 +44,9 @@ scale = Vector2(0.126422, 0.126422)
 texture = ExtResource("1_b3wk4")
 
 [node name="CarPath" type="PathFollow2D" parent="Path2D"]
-position = Vector2(296.346, 175.658)
-rotation = -0.161611
-progress = 51.75
+position = Vector2(494.525, 154.437)
+rotation = 0.239278
+progress = 252.9
 cubic_interp = false
 loop = false
 
@@ -88,7 +91,7 @@ texture = ExtResource("1_b3wk4")
 position = Vector2(318.2, 171.758)
 
 [node name="Car" parent="Train" instance=ExtResource("3_dtup8")]
-position = Vector2(296.346, 175.658)
+position = Vector2(494.525, 154.437)
 mass = 6.47
 
 [node name="Car2" parent="Train" instance=ExtResource("3_dtup8")]
@@ -98,14 +101,14 @@ mass = 6.47
 [node name="Boxes" type="Node2D" parent="."]
 
 [node name="Box" parent="Boxes" instance=ExtResource("4_66pgm")]
-position = Vector2(355, 192)
+position = Vector2(417, 156)
+
+[node name="Box3" parent="Boxes/Box" instance=ExtResource("4_66pgm")]
+position = Vector2(8, 32)
 
 [node name="Box2" parent="Boxes" instance=ExtResource("4_66pgm")]
-position = Vector2(987, 342)
+position = Vector2(998, 334)
 mass = 326.75
-
-[node name="Box3" parent="Boxes" instance=ExtResource("4_66pgm")]
-position = Vector2(539, 256)
 
 [node name="Box4" parent="Boxes" instance=ExtResource("4_66pgm")]
 position = Vector2(523, 272)
@@ -117,7 +120,7 @@ position = Vector2(539, 291)
 position = Vector2(409, 272)
 
 [node name="Box7" parent="Boxes" instance=ExtResource("4_66pgm")]
-position = Vector2(780, 396)
+position = Vector2(788, 404)
 
 [node name="Box8" parent="Boxes" instance=ExtResource("4_66pgm")]
 position = Vector2(681, 307)
@@ -133,3 +136,38 @@ gravity_point = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("CircleShape2D_1qe5q")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(976, 367)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(4.45386, -4.4429)
+rotation = 0.677188
+scale = Vector2(1, 1)
+shape = SubResource("RectangleShape2D_icb28")
+
+[node name="OptionButton" type="OptionButton" parent="."]
+offset_left = 1041.0
+offset_top = 37.0
+offset_right = 1144.0
+offset_bottom = 68.0
+item_count = 3
+selected = 2
+popup/item_0/text = "reverse"
+popup/item_0/id = 0
+popup/item_1/text = "stop"
+popup/item_1/id = 1
+popup/item_2/text = "forward"
+popup/item_2/id = 2
+
+[node name="SpinBox" type="SpinBox" parent="."]
+offset_left = 1068.0
+offset_right = 1151.06
+offset_bottom = 31.0
+mouse_filter = 1
+max_value = 1.0
+step = 0.05
+alignment = 2
+
+[connection signal="item_selected" from="OptionButton" to="." method="_on_option_button_item_selected"]
+[connection signal="value_changed" from="SpinBox" to="." method="_on_spin_box_value_changed"]
