@@ -13,6 +13,10 @@ const DIVIDER = 6.0
 var tension = 1.0
 
 func _ready():
+	for follow in $Path2D.get_children():
+		for node in follow.get_children():
+			if node is RigidBody2D:
+				node.position = Vector2(0, 0)
 	loco.set_follow(follow)
 	loco.active = true
 	#loco.connect_car($Train/Car.name)

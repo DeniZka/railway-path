@@ -1,6 +1,7 @@
 extends RigidBody2D
 
 signal dist_ready(dist: float)
+signal leader_chaned(obj: RigidBody2D)
 
 var follow : PathFollow2D = null
 var active : bool = false #uses engine
@@ -20,12 +21,19 @@ var direction : int = 0
 
 @onready var total_mass : float = mass
 var total_force : float = 0.0
+var leader : bool = false
 
+func set_leader(yes: bool):
+	leader = yes
+	leader_chaned.emit(self)
 
 func set_follow(new_follow: PathFollow2D):
+	position = new_follow.position
 	follow = new_follow
+	
 func set_dist(new_dist: float):
 	dist = new_dist
+	
 func connect_car(car: String):
 	$Joint.node_b = NodePath("../../" + car)
 
@@ -65,7 +73,7 @@ func set_total_force(tot_force: float):
 
 var prev_pos : Vector2 = Vector2.ZERO
 func _integrate_forces(state):
-	print(name)
+	print(name, " ", position)
 	#print("POS:", position, follow.position)
 	#calculate next position
 	var dir = 1
@@ -111,7 +119,7 @@ func _integrate_forces(state):
 	if active:
 		if Input.is_key_pressed(KEY_W):
 			tot_force += force
-			state.apply_central_force(tot_force.rotated(follow.rotation)/30)
+			state.apply_central_force(tot_force.rotated(follow.rotation))
 		else:
 			state.apply_central_force(tot_force.rotated(follow.rotation))
 	else:
