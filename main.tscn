@@ -96,8 +96,8 @@ position = Vector2(433, 173)
 mass = 9.43
 
 [node name="Box2" parent="Boxes" instance=ExtResource("4_66pgm")]
-position = Vector2(998, 334)
-mass = 326.75
+position = Vector2(531, 165)
+mass = 0.08
 
 [node name="Box4" parent="Boxes" instance=ExtResource("4_66pgm")]
 position = Vector2(523, 272)

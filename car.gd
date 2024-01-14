@@ -8,6 +8,7 @@ extends CollisionShape2D
 @export var enigne_force : float = 100
 @export var width : float = 20
 @export var height : float = 12
+@export var flip : bool = false
 
 func _ready():
 	shape = RectangleShape2D.new()

@@ -48,14 +48,20 @@ func place_cars():
 	for car in right_cars:
 		follow.progress += 24 #calculated between car width
 		car.position = follow.position - self.position
-		car.rotation = follow.rotation
+		if car.flip:
+			car.rotation = follow.rotation + PI
+		else:
+			car.rotation = follow.rotation
 	#do it
 	follow.progress = bak_offset
 	#set cars from left
 	for car in left_cars:
 		follow.progress -= 24
 		car.position = follow.position - self.position
-		car.rotation = follow.rotation
+		if car.flip:
+			car.rotation = follow.rotation + PI
+		else:
+			car.rotation = follow.rotation
 	follow.progress = bak_offset
 	
 func set_path(path: Path2D):
@@ -130,36 +136,31 @@ func set_total_force(tot_force: float):
 
 var prev_pos : Vector2 = Vector2.ZERO
 func _integrate_forces(state):
-	#FIXME: follow position when collision!!!
 	#TODO: generate self curve!!!
+	#Change follow position after collisions and movements
 	#FIX cuve cross section skip!!!
 	var clothest_offset = path.curve.get_closest_offset(position)
 	if abs(follow.progress - clothest_offset) < 100:
 		follow.progress = clothest_offset
+		
+	#FIX: small fix for position displacing
+	if abs(position.x - follow.position.x) > 1.0:
+		position.x = follow.position.x
+		print(name, " X")
+	if abs(position.y - follow.position.y) > 1.0:
+		position.y = follow.position.y
+		print(name, " Y")
+		#TODO: calculate correct angular velocity!
+	$Car.rotation = follow.rotation
+	place_cars()
 	
-	#print(name, " ", position)
-	#print("POS:", position, follow.position)
+	
 	#calculate next position
 	var dir = 1
 	if abs(abs(state.linear_velocity.angle()) - abs(follow.rotation)) > PI/2:
 		dir = -1
 	var vel = state.linear_velocity.length()
 
-	#FIXME: small fix for position displacing
-	
-	if abs(position.x - follow.position.x) > 2.0:
-		position.x = follow.position.x
-		print(name, " X")
-		print(name, " vel ", vel)
-	if abs(position.y - follow.position.y) > 2.0:
-		position.y = follow.position.y
-		print(name, " Y")
-		#TODO: calculate correct angular velocity!
-	$Car.rotation = follow.rotation
-	place_cars()
-		
-	#if name == "Loco":
-		#print(name, " Vel: ", state.linear_velocity.angle(), " rot: ", follow.rotation)
 	#breaks
 	if active:
 		vel = break_vel(vel)
