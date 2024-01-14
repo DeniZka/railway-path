@@ -8,21 +8,22 @@ const DIVIDER = 6.0
 @onready var points : Node2D = $DragPoints
 @onready var drag_poin_scene : PackedScene = load("res://drag_point.tscn")
 @onready var train : Node2D =  $Train
-@onready var loco : RigidBody2D = $Train/Loco
-@onready var car : RigidBody2D = $Train/Car
+@onready var loco : RigidBody2D = $Trains/Loco
+@onready var car : RigidBody2D = $Trains/Car
 var tension = 1.0
+
 
 func _ready():
 	for follow in $Path2D.get_children():
 		for node in follow.get_children():
 			if node is RigidBody2D:
 				node.position = Vector2(0, 0)
-	loco.set_follow(follow)
-	loco.active = true
+	loco.set_path($Path2D)
+	#loco.set_follow(follow)
+	#loco.active = true
 	#loco.connect_car($Train/Car.name)
-	car.set_follow($Path2D/CarPath)
-	#car.connect_car($Train/Car2.name)
-	$Train/Car2.set_follow($Path2D/CarPath2)
+	#car.set_follow($Path2D/CarPath)
+	#$Trains/Car2.set_follow($Path2D/CarPath2)
 	loco.direction = 1
 	var in_ : Vector2 = path.curve.get_point_in(0)
 	var pt2 : Vector2 = $Path2D.curve.get_point_position(2)
@@ -98,14 +99,19 @@ func _on_point_moved(idx: int, pos: Vector2):
 	
 	line.points = path.curve.get_baked_points()
 	
-
+func _input(event):
+	if event is InputEventKey:
+		if event.physical_keycode == KEY_Q and event.pressed:
+			$SpinBox.value += 0.05
+		if event.physical_keycode == KEY_A and event.pressed:
+			$SpinBox.value -= 0.05
 
 
 func _on_spin_box_value_changed(value):
-	$Train/Loco.set_break(value)
+	$Trains/Loco.set_break(value)
 	pass # Replace with function body.
 
 
 func _on_option_button_item_selected(index):
-	$Train/Loco.direction = index -1
+	$Trains/Loco.direction = index -1
 	pass # Replace with function body.

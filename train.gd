@@ -30,5 +30,5 @@ func set_lead_loco(car: RigidBody2D):
 	pass
 
 func _integrate_forces(state):
-	print("works")
+	#print("works")
 	pass

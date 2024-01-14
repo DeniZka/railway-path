@@ -1,12 +1,26 @@
-[gd_scene load_steps=2 format=3 uid="uid://dttyl3mwbdphs"]
+[gd_scene load_steps=3 format=3 uid="uid://dttyl3mwbdphs"]
 
-[ext_resource type="Script" path="res://train.gd" id="1_ctvvh"]
+[ext_resource type="Script" path="res://RigidBody2D.gd" id="1_qyn2o"]
+[ext_resource type="PackedScene" uid="uid://cpn7bcarjv0xn" path="res://car.tscn" id="2_any2t"]
 
 [node name="Train" type="RigidBody2D"]
-script = ExtResource("1_ctvvh")
+can_sleep = false
+lock_rotation = true
+linear_damp_mode = 1
+linear_damp = 0.03
+script = ExtResource("1_qyn2o")
 
-[node name="Path" type="Path2D" parent="."]
+[node name="Car" parent="." instance=ExtResource("2_any2t")]
 
-[node name="PathFollow" type="PathFollow2D" parent="Path"]
+[node name="Line2D" type="Line2D" parent="Car"]
+points = PackedVector2Array(0, 0, 0, 0)
+width = 2.0
+default_color = Color(0.87451, 0.592157, 1, 1)
 
-[node name="Cars" type="Node" parent="."]
+[node name="Line2D2" type="Line2D" parent="Car"]
+points = PackedVector2Array(0, 0, 0, 0)
+width = 2.0
+default_color = Color(0, 0.827451, 0.823529, 1)
+
+[node name="Car2" parent="." instance=ExtResource("2_any2t")]
+position = Vector2(24, 0)

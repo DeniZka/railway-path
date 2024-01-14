@@ -1,55 +1,33 @@
-[gd_scene load_steps=5 format=3 uid="uid://d4em25qe6joub"]
+[gd_scene load_steps=5 format=3 uid="uid://cpn7bcarjv0xn"]
 
-[ext_resource type="Script" path="res://RigidBody2D.gd" id="1_0ipld"]
+[ext_resource type="Script" path="res://car.gd" id="1_duf8h"]
 [ext_resource type="Texture2D" uid="uid://dghdo7pwjry8l" path="res://icon.svg" id="2_521kt"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_w6ryj"]
 size = Vector2(20, 12)
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_e2v04"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_hfn26"]
 radius = 4.0
 
-[node name="Car" type="RigidBody2D"]
-can_sleep = false
-lock_rotation = true
-linear_damp_mode = 1
-linear_damp = 0.03
-script = ExtResource("1_0ipld")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="Car" type="CollisionShape2D"]
 shape = SubResource("RectangleShape2D_w6ryj")
+script = ExtResource("1_duf8h")
 
 [node name="Icon" type="Sprite2D" parent="."]
-position = Vector2(0.0393739, 0.0393707)
 rotation = 1.5708
 scale = Vector2(0.095047, 0.130728)
 texture = ExtResource("2_521kt")
-
-[node name="Line2D" type="Line2D" parent="."]
-points = PackedVector2Array(0, 0, 0, 0)
-width = 2.0
-default_color = Color(0.87451, 0.592157, 1, 1)
-
-[node name="Line2D2" type="Line2D" parent="."]
-points = PackedVector2Array(0, 0, 0, 0)
-width = 2.0
-default_color = Color(0, 0.827451, 0.823529, 1)
-
-[node name="Joint" type="PinJoint2D" parent="."]
-position = Vector2(-12, 0)
-node_a = NodePath("..")
-softness = 13.97
 
 [node name="FrontSensor" type="Area2D" parent="."]
 position = Vector2(8, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="FrontSensor"]
 position = Vector2(2, 0)
-shape = SubResource("CircleShape2D_e2v04")
+shape = SubResource("CircleShape2D_hfn26")
 
 [node name="BackSensor" type="Area2D" parent="."]
 position = Vector2(-8, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BackSensor"]
 position = Vector2(-2, 0)
-shape = SubResource("CircleShape2D_e2v04")
+shape = SubResource("CircleShape2D_hfn26")

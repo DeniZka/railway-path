@@ -1,14 +1,17 @@
-[gd_scene load_steps=3 format=3 uid="uid://cmn6ailxye7sm"]
+[gd_scene load_steps=4 format=3 uid="uid://cmn6ailxye7sm"]
 
+[ext_resource type="Script" path="res://box.gd" id="1_2nfqk"]
 [ext_resource type="Texture2D" uid="uid://dghdo7pwjry8l" path="res://icon.svg" id="1_h45ex"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_w6ryj"]
 size = Vector2(14, 16)
 
 [node name="Box" type="RigidBody2D"]
+input_pickable = true
 mass = 0.72
 can_sleep = false
 linear_damp = 1.0
+script = ExtResource("1_2nfqk")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_w6ryj")
@@ -16,3 +19,7 @@ shape = SubResource("RectangleShape2D_w6ryj")
 [node name="Icon" type="Sprite2D" parent="."]
 scale = Vector2(0.126422, 0.126422)
 texture = ExtResource("1_h45ex")
+
+[connection signal="input_event" from="." to="." method="_on_input_event"]
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
