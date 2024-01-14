@@ -7,8 +7,8 @@ var path : Path2D =null
 var follow : PathFollow2D = null
 var active : bool = false #uses engine
 var dist : float = 0.0
-var loco : bool = false #can push/pull the train
-var force : Vector2 = Vector2(100, 0)
+@export var loco : bool = false #can push/pull the train
+var force : float = 100
 const DRAG_FORCE_SPEED = 10 #velocity where drag is on
 const DRAG_FLATNESS = 300   #moar x - more flat drag
 
@@ -127,7 +127,7 @@ func _integrate_forces(state):
 		#FIXME: drag direction!!!
 	if active:
 		if Input.is_key_pressed(KEY_W):
-			tot_force += force
+			tot_force += Vector2(force, 0)
 			state.apply_central_force(tot_force.rotated(follow.rotation))
 		else:
 			state.apply_central_force(tot_force.rotated(follow.rotation))

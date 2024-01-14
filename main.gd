@@ -20,6 +20,7 @@ func _ready():
 	loco.set_follow(follow)
 	loco.path = $Path2D
 	loco.active = true
+	loco.add_collision_exception_with($Train/Car) #TODO: except all in train
 	#loco.connect_car($Train/Car.name)
 	car.path = $Path2D
 	car.set_follow($Path2D/CarPath)

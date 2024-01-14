@@ -11,12 +11,26 @@ extends RigidBody2D
 @onready var path : Path2D = $Path
 @onready var cars : Node = $Cars
 var lead_loco: RigidBody2D
+var train_mass: float = 0.0
+var train_force: float = 0.0
+
+var rudder_pos: float = 0.0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	#TODO: except cars for cars in train conllision
 	if ! path.curve:
 		path.curve = Curve2D.new()
+	for car in get_children():
+		if car is RigidBody2D:
+			train_mass += car.mass
+			#TODO: set total_mass for every of carrige
+			if car.loco:
+				train_force += car.force
 	pass # Replace with function body.
+	
+func set_force(level: float):
+	rudder_pos = level
 	
 func update_path(pos: Vector2, in_: Vector2, out_: Vector2):
 	path.curve.add_point(pos, in_, out_)
@@ -30,5 +44,7 @@ func set_lead_loco(car: RigidBody2D):
 	pass
 
 func _integrate_forces(state):
+	#TODO: Calculate final velocity vector length
+	#F/m *dt
 	print("works")
 	pass

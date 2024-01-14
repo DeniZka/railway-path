@@ -91,6 +91,7 @@ can_sleep = false
 [node name="Loco" parent="Train" instance=ExtResource("3_dtup8")]
 position = Vector2(315, 148)
 rotation = -0.190726
+loco = true
 
 [node name="Car" parent="Train" instance=ExtResource("3_dtup8")]
 position = Vector2(494.525, 154.437)
