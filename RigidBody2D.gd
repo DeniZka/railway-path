@@ -31,6 +31,7 @@ var right_cars: Array[Car] = []
 
 func _ready():
 	push_right($Car2)
+	push_left($Car3)
 
 func push_left(car: Car):
 	left_cars.append(car)
@@ -47,10 +48,15 @@ func place_cars():
 	for car in right_cars:
 		follow.progress += 24 #calculated between car width
 		car.position = follow.position - self.position
-		car.rotation = follow.rotation - self.rotation
+		car.rotation = follow.rotation
 	#do it
 	follow.progress = bak_offset
-	pass
+	#set cars from left
+	for car in left_cars:
+		follow.progress -= 24
+		car.position = follow.position - self.position
+		car.rotation = follow.rotation
+	follow.progress = bak_offset
 	
 func set_path(path: Path2D):
 	self.path = path
@@ -124,7 +130,8 @@ func set_total_force(tot_force: float):
 
 var prev_pos : Vector2 = Vector2.ZERO
 func _integrate_forces(state):
-
+	#FIXME follow position when collision!!!
+	follow.progress = path.curve.get_closest_offset(position)
 	
 	#print(name, " ", position)
 	#print("POS:", position, follow.position)

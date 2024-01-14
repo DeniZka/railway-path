@@ -88,11 +88,12 @@ position = Vector2(338, 156)
 
 [node name="Boxes" type="Node2D" parent="."]
 
-[node name="Box" parent="Boxes" instance=ExtResource("4_66pgm")]
-position = Vector2(417, 156)
+[node name="Box3" parent="Boxes" instance=ExtResource("4_66pgm")]
+position = Vector2(441, 205)
 
-[node name="Box3" parent="Boxes/Box" instance=ExtResource("4_66pgm")]
-position = Vector2(8, 32)
+[node name="Box" parent="Boxes" instance=ExtResource("4_66pgm")]
+position = Vector2(433, 173)
+mass = 9.43
 
 [node name="Box2" parent="Boxes" instance=ExtResource("4_66pgm")]
 position = Vector2(998, 334)

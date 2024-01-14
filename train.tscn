@@ -24,3 +24,6 @@ default_color = Color(0, 0.827451, 0.823529, 1)
 
 [node name="Car2" parent="." instance=ExtResource("2_any2t")]
 position = Vector2(24, 0)
+
+[node name="Car3" parent="." instance=ExtResource("2_any2t")]
+position = Vector2(-25.565, 0)
