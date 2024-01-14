@@ -18,10 +18,13 @@ func _ready():
 			if node is RigidBody2D:
 				node.position = Vector2(0, 0)
 	loco.set_follow(follow)
+	loco.path = $Path2D
 	loco.active = true
 	#loco.connect_car($Train/Car.name)
+	car.path = $Path2D
 	car.set_follow($Path2D/CarPath)
 	#car.connect_car($Train/Car2.name)
+	$Train/Car2.path = $Path2D
 	$Train/Car2.set_follow($Path2D/CarPath2)
 	loco.direction = 1
 	var in_ : Vector2 = path.curve.get_point_in(0)

@@ -102,11 +102,11 @@ mass = 6.47
 
 [node name="Boxes" type="Node2D" parent="."]
 
-[node name="Box" parent="Boxes" instance=ExtResource("4_66pgm")]
-position = Vector2(417, 156)
+[node name="Box3" parent="Boxes" instance=ExtResource("4_66pgm")]
+position = Vector2(454, 213)
 
-[node name="Box3" parent="Boxes/Box" instance=ExtResource("4_66pgm")]
-position = Vector2(8, 32)
+[node name="Box" parent="Boxes" instance=ExtResource("4_66pgm")]
+position = Vector2(446, 181)
 
 [node name="Box2" parent="Boxes" instance=ExtResource("4_66pgm")]
 position = Vector2(998, 334)
@@ -145,7 +145,6 @@ position = Vector2(976, 367)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
 position = Vector2(4.45386, -4.4429)
 rotation = 0.677188
-scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_icb28")
 
 [node name="OptionButton" type="OptionButton" parent="."]

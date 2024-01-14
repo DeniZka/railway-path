@@ -3,6 +3,7 @@ extends RigidBody2D
 signal dist_ready(dist: float)
 signal leader_chaned(obj: RigidBody2D)
 
+var path : Path2D =null
 var follow : PathFollow2D = null
 var active : bool = false #uses engine
 var dist : float = 0.0
@@ -73,9 +74,23 @@ func set_total_force(tot_force: float):
 
 var prev_pos : Vector2 = Vector2.ZERO
 func _integrate_forces(state):
-	print(name, " ", position)
-	#print("POS:", position, follow.position)
-	#calculate next position
+		#TODO: generate self curve!!!
+	#Change follow position after collisions and movements
+	#FIX cuve cross section skip!!!
+	var clothest_offset = path.curve.get_closest_offset(position)
+	if abs(follow.progress - clothest_offset) < 100:
+		follow.progress = clothest_offset
+		
+	#FIX: small fix for position displacing
+	if abs(position.x - follow.position.x) > 2.0:
+		position.x = follow.position.x
+		print(name, " X")
+	if abs(position.y - follow.position.y) > 2.0:
+		position.y = follow.position.y
+		print(name, " Y")
+		#TODO: calculate correct angular velocity!
+		
+		
 	var dir = 1
 	if abs(abs(state.linear_velocity.angle()) - abs(follow.rotation)) > PI/2:
 		dir = -1
@@ -100,12 +115,6 @@ func _integrate_forces(state):
 	state.linear_velocity = target_dist / state.step
 	$Line2D.points[1] = linear_velocity.rotated(-follow.rotation)
 	
-	#FIXME: small fix for position displacing
-	if abs(position.x - follow.position.x) > 1.0:
-		position.x = follow.position.x
-	if abs(position.y - follow.position.y) > 1.0:
-		position.y = follow.position.y
-		
 	#TODO: calculate correct angular velocity!
 	rotation = follow.rotation
 	#var orig : Vector2 = state.transform.get_origin()
