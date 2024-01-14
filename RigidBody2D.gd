@@ -130,8 +130,12 @@ func set_total_force(tot_force: float):
 
 var prev_pos : Vector2 = Vector2.ZERO
 func _integrate_forces(state):
-	#FIXME follow position when collision!!!
-	follow.progress = path.curve.get_closest_offset(position)
+	#FIXME: follow position when collision!!!
+	#TODO: generate self curve!!!
+	#FIX cuve cross section skip!!!
+	var clothest_offset = path.curve.get_closest_offset(position)
+	if abs(follow.progress - clothest_offset) < 100:
+		follow.progress = clothest_offset
 	
 	#print(name, " ", position)
 	#print("POS:", position, follow.position)
