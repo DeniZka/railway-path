@@ -13,6 +13,7 @@ const DIVIDER = 6.0
 var tension = 1.0
 
 func _ready():
+	$Train.rails_api = $Path2D
 	for follow in $Path2D.get_children():
 		for node in follow.get_children():
 			if node is RigidBody2D:
@@ -20,7 +21,7 @@ func _ready():
 	loco.set_follow(follow)
 	loco.path = $Path2D
 	loco.active = true
-	loco.add_collision_exception_with($Train/Car) #TODO: except all in train
+	#loco.add_collision_exception_with($Train/Car) #TODO: except all in train
 	#loco.connect_car($Train/Car.name)
 	car.path = $Path2D
 	car.set_follow($Path2D/CarPath)
@@ -111,5 +112,6 @@ func _on_spin_box_value_changed(value):
 
 
 func _on_option_button_item_selected(index):
-	$Train/Loco.direction = index -1
+	$Train.set_direction(index -1)
+	#$Train/Loco.direction = index -1
 	pass # Replace with function body.

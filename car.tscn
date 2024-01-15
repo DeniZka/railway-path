@@ -10,10 +10,12 @@ size = Vector2(20, 12)
 radius = 4.0
 
 [node name="Car" type="RigidBody2D"]
-can_sleep = false
+sleeping = true
 lock_rotation = true
+max_contacts_reported = 1
+contact_monitor = true
 linear_damp_mode = 1
-linear_damp = 0.03
+linear_damp = 0.5
 script = ExtResource("1_0ipld")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -53,3 +55,6 @@ position = Vector2(-8, 0)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BackSensor"]
 position = Vector2(-2, 0)
 shape = SubResource("CircleShape2D_e2v04")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

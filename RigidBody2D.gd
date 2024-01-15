@@ -1,14 +1,24 @@
+class_name Car
 extends RigidBody2D
+var b : StaticBody2D
+#TODO: due to collision send signal to train
+signal velocity_changed(car: RigidBody2D, new_velocity: Vector2)
+signal velocity_stabilized(car: RigidBody2D, new_velocity: Vector2)
 
 signal dist_ready(dist: float)
 signal leader_chaned(obj: RigidBody2D)
+
+@export var flip : bool = false #flip rotation 10+pi
+@export var direction : int = -1
+
 
 var path : Path2D =null
 var follow : PathFollow2D = null
 var active : bool = false #uses engine
 var dist : float = 0.0
 @export var loco : bool = false #can push/pull the train
-var force : float = 100
+@export var engine_force : float = 100.0
+var throttle_level : float = 0.0
 const DRAG_FORCE_SPEED = 10 #velocity where drag is on
 const DRAG_FLATNESS = 300   #moar x - more flat drag
 
@@ -18,9 +28,9 @@ var break_state = 0.0  #from 0.0 to 1.0
 const DIRECTION_NONE = 0
 const DIRECTION_FORWARD = 1
 const DIRECTION_BACKWARD = -1
-var direction : int = 0
 
 @onready var total_mass : float = mass
+var bak_mass : float = 0.0
 var total_force : float = 0.0
 var leader : bool = false
 
@@ -30,6 +40,7 @@ func set_leader(yes: bool):
 
 func set_follow(new_follow: PathFollow2D):
 	position = new_follow.position
+	rotation = new_follow.rotation + int(flip) * PI
 	follow = new_follow
 	
 func set_dist(new_dist: float):
@@ -71,28 +82,35 @@ func set_total_mass(tot_mass: float):
 	
 func set_total_force(tot_force: float):
 	total_force = tot_force
+	
+func set_train_mass(train_mass: float):
+	bak_mass = mass
+	mass = train_mass
+	
+func reset_train_mass():
+	mass = bak_mass
+	pass
 
 var prev_pos : Vector2 = Vector2.ZERO
 func _integrate_forces(state):
 		#TODO: generate self curve!!!
 	#Change follow position after collisions and movements
-	#FIX cuve cross section skip!!!
 	var clothest_offset = path.curve.get_closest_offset(position)
-	if abs(follow.progress - clothest_offset) < 100:
+	if abs(follow.progress - clothest_offset) < 100: #FIX curve cross /near section skip!!!
 		follow.progress = clothest_offset
 		
 	#FIX: small fix for position displacing
-	if abs(position.x - follow.position.x) > 2.0:
+	if abs(position.x - follow.position.x) > 1.0:
 		position.x = follow.position.x
 		print(name, " X")
-	if abs(position.y - follow.position.y) > 2.0:
+	if abs(position.y - follow.position.y) > 1.0:
 		position.y = follow.position.y
 		print(name, " Y")
 		#TODO: calculate correct angular velocity!
 		
 		
 	var dir = 1
-	if abs(abs(state.linear_velocity.angle()) - abs(follow.rotation)) > PI/2:
+	if abs(abs(state.linear_velocity.angle()) - abs(rotation)) > PI/2:
 		dir = -1
 	var vel = state.linear_velocity.length()
 	#if name == "Loco":
@@ -113,11 +131,11 @@ func _integrate_forces(state):
 	#print("dist: %0.2f" % (position - prev_pos).length())
 	prev_pos = position
 	state.linear_velocity = target_dist / state.step
-	$Line2D.points[1] = linear_velocity.rotated(-follow.rotation)
 	
 	#TODO: calculate correct angular velocity!
-	rotation = follow.rotation
+	rotation = follow.rotation + int(flip) * PI
 	#var orig : Vector2 = state.transform.get_origin()
+	$Line2D.points[1] = linear_velocity.rotated(-rotation)
 	
 
 	#apply new force to an active car
@@ -126,19 +144,24 @@ func _integrate_forces(state):
 		tot_force += drag_from_vel(vel)
 		#FIXME: drag direction!!!
 	if active:
-		if Input.is_key_pressed(KEY_W):
-			tot_force += Vector2(force, 0)
-			state.apply_central_force(tot_force.rotated(follow.rotation))
-		else:
-			state.apply_central_force(tot_force.rotated(follow.rotation))
+		tot_force += Vector2(throttle_level * engine_force, 0) * direction
+		#state.linear_velocity = Vectwwor2(1000,0) * state.step
+		print("PRESSED", state.step)
+		state.apply_central_force(tot_force.rotated(2*PI + rotation))
 	else:
 		#was set_constant_force
 		state.apply_central_force(tot_force)
 	$Line2D2.points[1] = tot_force
 	
 	#state.integrate_forces()
-	#state.integrate_forces()
-	#state.integrate_forces()
 	
-	pass
-	
+func _physics_process(delta):
+	print(name, " - ", linear_velocity)
+
+
+func _on_body_entered(body):
+	velocity_changed.emit(self, linear_velocity)
+
+
+func _on_body_exited(body):
+	velocity_stabilized.emit(self, linear_velocity)

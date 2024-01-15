@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://dyl56jenlcs68"]
+[gd_scene load_steps=9 format=3 uid="uid://dyl56jenlcs68"]
 
 [ext_resource type="Texture2D" uid="uid://dghdo7pwjry8l" path="res://icon.svg" id="1_b3wk4"]
 [ext_resource type="Script" path="res://main.gd" id="1_uhihj"]
@@ -9,12 +9,9 @@
 
 [sub_resource type="Curve2D" id="Curve2D_mpf2r"]
 _data = {
-"points": PackedVector2Array(-102.872, 8.57942, 137.493, -11.4668, 245, 182, -103.313, -46.6171, 103.313, 46.6171, 536, 169, 22.9638, -182.373, -22.9638, 182.373, 1016, 372, -126.192, 2.84732, 204.246, -4.60847, 663, 634, -30.2381, 109.613, 35.8769, -130.054, 1072, 382, 64.8286, 38.5198, -64.8286, -38.5198, 972, 91, 72.1628, 5.34539, -72.1628, -5.34539, 754, 20, 1.7818, -34.745, -1.7818, 34.745, 851, 157, -35.6359, -24.9452, 35.6359, 24.9452, 698, 304, 3.56359, -44.5449, -3.56359, 44.5449, 906, 283, 48.1085, 3.56359, -48.1085, -3.56359, 721, 408, 90.8717, -4.45449, -90.8717, 4.45449, 475, 552, 76.0859, 30.7013, -76.0859, -30.7013, 316, 427, 16.9271, 50.7812, -16.9271, -50.7812, 37, 453, 0, -296.334, 0, 296.334, 143, 195, -60.5811, 22.2725, 60.5811, -22.2725, 345, 279, 4.45449, -42.7631, -4.45449, 42.7631, 420, 306, -58.7993, -2.6727, 58.7993, 2.6727, 711, 514, -14.2544, 31.1815, 14.2544, -31.1815, 983, 357)
+"points": PackedVector2Array(-102.872, 8.57942, 137.493, -11.4668, 244, 183, -103.313, -46.6171, 103.313, 46.6171, 536, 169, 22.9638, -182.373, -22.9638, 182.373, 1016, 372, -126.192, 2.84732, 204.246, -4.60847, 663, 634, -30.2381, 109.613, 35.8769, -130.054, 1072, 382, 64.8286, 38.5198, -64.8286, -38.5198, 972, 91, 72.1628, 5.34539, -72.1628, -5.34539, 754, 20, 1.7818, -34.745, -1.7818, 34.745, 851, 157, -35.6359, -24.9452, 35.6359, 24.9452, 698, 304, 3.56359, -44.5449, -3.56359, 44.5449, 906, 283, 48.1085, 3.56359, -48.1085, -3.56359, 721, 408, 90.8717, -4.45449, -90.8717, 4.45449, 475, 552, 76.0859, 30.7013, -76.0859, -30.7013, 316, 427, 16.9271, 50.7812, -16.9271, -50.7812, 37, 453, 0, -296.334, 0, 296.334, 143, 195, -60.5811, 22.2725, 60.5811, -22.2725, 345, 279, 4.45449, -42.7631, -4.45449, 42.7631, 420, 306, -58.7993, -2.6727, 58.7993, 2.6727, 711, 514, -14.2544, 31.1815, 14.2544, -31.1815, 983, 357)
 }
 point_count = 19
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_1qe5q"]
-radius = 81.5843
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_icb28"]
 size = Vector2(27.0183, 7.49353)
@@ -31,8 +28,8 @@ antialiased = true
 curve = SubResource("Curve2D_mpf2r")
 
 [node name="TrainPath" type="PathFollow2D" parent="Path2D"]
-position = Vector2(318.2, 171.758)
-rotation = -0.190726
+position = Vector2(317.187, 172.676)
+rotation = -0.192877
 progress = 73.95
 cubic_interp = false
 loop = false
@@ -44,8 +41,8 @@ scale = Vector2(0.126422, 0.126422)
 texture = ExtResource("1_b3wk4")
 
 [node name="CarPath" type="PathFollow2D" parent="Path2D"]
-position = Vector2(494.525, 154.437)
-rotation = 0.239278
+position = Vector2(493.457, 154.257)
+rotation = 0.230805
 progress = 252.9
 cubic_interp = false
 loop = false
@@ -58,8 +55,8 @@ scale = Vector2(0.126422, 0.126422)
 texture = ExtResource("1_b3wk4")
 
 [node name="CarPath2" type="PathFollow2D" parent="Path2D"]
-position = Vector2(271.455, 179.245)
-rotation = -0.124195
+position = Vector2(270.454, 180.234)
+rotation = -0.125023
 progress = 26.6
 cubic_interp = false
 loop = false
@@ -72,8 +69,8 @@ scale = Vector2(0.126422, 0.126422)
 texture = ExtResource("1_b3wk4")
 
 [node name="CarPath3" type="PathFollow2D" parent="Path2D"]
-position = Vector2(296.346, 175.658)
-rotation = -0.161611
+position = Vector2(295.341, 176.617)
+rotation = -0.163164
 progress = 51.75
 cubic_interp = false
 loop = false
@@ -91,15 +88,14 @@ can_sleep = false
 [node name="Loco" parent="Train" instance=ExtResource("3_dtup8")]
 position = Vector2(315, 148)
 rotation = -0.190726
+flip = true
 loco = true
-
-[node name="Car" parent="Train" instance=ExtResource("3_dtup8")]
-position = Vector2(494.525, 154.437)
-mass = 6.47
 
 [node name="Car2" parent="Train" instance=ExtResource("3_dtup8")]
 position = Vector2(271.455, 179.245)
-mass = 6.47
+
+[node name="Car" parent="Train" instance=ExtResource("3_dtup8")]
+position = Vector2(494.525, 154.437)
 
 [node name="Boxes" type="Node2D" parent="."]
 
@@ -132,13 +128,6 @@ position = Vector2(681, 307)
 
 [node name="DragPoint" parent="DragPoints" instance=ExtResource("3_0k3cr")]
 visible = false
-
-[node name="Area2D" type="Area2D" parent="."]
-gravity_space_override = 3
-gravity_point = true
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-shape = SubResource("CircleShape2D_1qe5q")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 position = Vector2(976, 367)
