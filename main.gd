@@ -1,4 +1,8 @@
 extends Node2D
+#main idea that after cwitch juction rails will reconfiguring self (split /merge paths) after that anounce abount new paths for every train
+#after _ready() need to split paths into a parts via junctions
+#the most effective way is to flipt path, that does not have any train on it
+#NOTE: some paths may be a loop! 
 
 const DIVIDER = 6.0
 
@@ -13,21 +17,9 @@ const DIVIDER = 6.0
 var tension = 1.0
 
 func _ready():
-	$Train.rails_api = $Path2D
-	for follow in $Path2D.get_children():
-		for node in follow.get_children():
-			if node is RigidBody2D:
-				node.position = Vector2(0, 0)
-	loco.set_follow(follow)
-	loco.path = $Path2D
+	$Train.set_path($Path2D)
 	loco.active = true
 	#loco.add_collision_exception_with($Train/Car) #TODO: except all in train
-	#loco.connect_car($Train/Car.name)
-	car.path = $Path2D
-	car.set_follow($Path2D/CarPath)
-	#car.connect_car($Train/Car2.name)
-	$Train/Car2.path = $Path2D
-	$Train/Car2.set_follow($Path2D/CarPath2)
 	loco.direction = 1
 	var in_ : Vector2 = path.curve.get_point_in(0)
 	var pt2 : Vector2 = $Path2D.curve.get_point_position(2)

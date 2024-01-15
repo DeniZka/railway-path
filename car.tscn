@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://d4em25qe6joub"]
 
-[ext_resource type="Script" path="res://RigidBody2D.gd" id="1_0ipld"]
+[ext_resource type="Script" path="res://car.gd" id="1_budfa"]
 [ext_resource type="Texture2D" uid="uid://dghdo7pwjry8l" path="res://icon.svg" id="2_521kt"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_w6ryj"]
@@ -16,7 +16,7 @@ max_contacts_reported = 1
 contact_monitor = true
 linear_damp_mode = 1
 linear_damp = 0.5
-script = ExtResource("1_0ipld")
+script = ExtResource("1_budfa")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_w6ryj")

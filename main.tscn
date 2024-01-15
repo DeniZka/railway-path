@@ -1,6 +1,5 @@
-[gd_scene load_steps=9 format=3 uid="uid://dyl56jenlcs68"]
+[gd_scene load_steps=8 format=3 uid="uid://dyl56jenlcs68"]
 
-[ext_resource type="Texture2D" uid="uid://dghdo7pwjry8l" path="res://icon.svg" id="1_b3wk4"]
 [ext_resource type="Script" path="res://main.gd" id="1_uhihj"]
 [ext_resource type="PackedScene" uid="uid://drjpfjr2ige62" path="res://drag_point.tscn" id="3_0k3cr"]
 [ext_resource type="PackedScene" uid="uid://d4em25qe6joub" path="res://car.tscn" id="3_dtup8"]
@@ -27,68 +26,12 @@ antialiased = true
 [node name="Path2D" type="Path2D" parent="."]
 curve = SubResource("Curve2D_mpf2r")
 
-[node name="TrainPath" type="PathFollow2D" parent="Path2D"]
-position = Vector2(317.187, 172.676)
-rotation = -0.192877
-progress = 73.95
-cubic_interp = false
-loop = false
-
-[node name="Icon2" type="Sprite2D" parent="Path2D/TrainPath"]
-modulate = Color(0, 0.74902, 0.815686, 1)
-rotation = 1.654
-scale = Vector2(0.126422, 0.126422)
-texture = ExtResource("1_b3wk4")
-
-[node name="CarPath" type="PathFollow2D" parent="Path2D"]
-position = Vector2(493.457, 154.257)
-rotation = 0.230805
-progress = 252.9
-cubic_interp = false
-loop = false
-
-[node name="Icon2" type="Sprite2D" parent="Path2D/CarPath"]
-visible = false
-modulate = Color(0, 0.74902, 0.815686, 1)
-rotation = 1.654
-scale = Vector2(0.126422, 0.126422)
-texture = ExtResource("1_b3wk4")
-
-[node name="CarPath2" type="PathFollow2D" parent="Path2D"]
-position = Vector2(270.454, 180.234)
-rotation = -0.125023
-progress = 26.6
-cubic_interp = false
-loop = false
-
-[node name="Icon2" type="Sprite2D" parent="Path2D/CarPath2"]
-visible = false
-modulate = Color(0, 0.74902, 0.815686, 1)
-rotation = 1.654
-scale = Vector2(0.126422, 0.126422)
-texture = ExtResource("1_b3wk4")
-
-[node name="CarPath3" type="PathFollow2D" parent="Path2D"]
-position = Vector2(295.341, 176.617)
-rotation = -0.163164
-progress = 51.75
-cubic_interp = false
-loop = false
-
-[node name="Icon2" type="Sprite2D" parent="Path2D/CarPath3"]
-visible = false
-modulate = Color(0, 0.74902, 0.815686, 1)
-rotation = 1.654
-scale = Vector2(0.126422, 0.126422)
-texture = ExtResource("1_b3wk4")
-
 [node name="Train" parent="." instance=ExtResource("6_q2t3g")]
 can_sleep = false
 
 [node name="Loco" parent="Train" instance=ExtResource("3_dtup8")]
 position = Vector2(315, 148)
 rotation = -0.190726
-flip = true
 loco = true
 
 [node name="Car2" parent="Train" instance=ExtResource("3_dtup8")]

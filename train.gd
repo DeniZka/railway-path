@@ -8,7 +8,6 @@ extends RigidBody2D
 		curve = val
 		path.curve = curve
 
-var rails_api : Path2D = null
 @onready var path : Path2D = $Path
 @onready var cars : Node = $Cars
 var lead_loco: Car #loco with what we play train
@@ -58,16 +57,16 @@ func set_lead_loco(car: RigidBody2D):
 func _integrate_forces(state):
 	for child in get_children():
 		if child is RigidBody2D:
-			print("TRAIN:", name, child.linear_velocity)
+			#print("TRAIN:", name, child.linear_velocity)
+			pass
 	#TODO: Calculate final velocity vector length
 	#F/m *dt
-	print("works")
 	pass
 	
 #self owned path which along moves train
 func calculate_path(node: RigidBody2D):
 	#rails_api.curve.get_baked_length()
-	print(node.name, "point ", rails_api.curve.get_closest_point(node.position), " ", node.position)
+	#print(node.name, "point ", path.curve.get_closest_point(node.position), " ", node.position)
 	#get_nearest_point
 	
 	#TODO: get node move vector
@@ -86,7 +85,7 @@ func _physics_process(delta):
 				calculate_path(child)
 				all_sleep = false
 				break
-			print("TRAIN---:", name, child.linear_velocity)
+			#print("TRAIN---:", name, child.linear_velocity)
 	#clear path if every body is sleeping
 	if all_sleep :
 		$Path.curve.clear_points()
@@ -115,3 +114,19 @@ func set_throttle(throttle_level):
 	#rudder_tween = get_tree().create_tween()
 	#rudder_tween.tween_property(lead_loco, "throttle_level", thrust_lvl, 1.0)
 	lead_loco.throttle_level = throttle_level
+
+#set path along what train and it cars can move
+func set_path(path: Path2D) -> void:
+	self.path = path
+	for child in get_children():
+		if child is Car:
+			#setup new path for Car follow
+			child.path = path #temp
+			var child_follow : PathFollow2D = child.get_follow()
+			if child_follow.get_parent() == null:
+				path.add_child(child_follow)
+			else:
+				child_follow.reparent(path)
+			#move follow
+			child_follow.progress = path.curve.get_closest_offset(child.position)
+

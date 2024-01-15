@@ -1,6 +1,6 @@
 class_name Car
 extends RigidBody2D
-var b : StaticBody2D
+
 #TODO: due to collision send signal to train
 signal velocity_changed(car: RigidBody2D, new_velocity: Vector2)
 signal velocity_stabilized(car: RigidBody2D, new_velocity: Vector2)
@@ -34,6 +34,11 @@ var bak_mass : float = 0.0
 var total_force : float = 0.0
 var leader : bool = false
 
+func _ready():
+	self.follow = PathFollow2D.new()
+	self.follow.cubic_interp = false #NOTE: moar smooth move
+	follow.position = position
+
 func set_leader(yes: bool):
 	leader = yes
 	leader_chaned.emit(self)
@@ -43,12 +48,12 @@ func set_follow(new_follow: PathFollow2D):
 	rotation = new_follow.rotation + int(flip) * PI
 	follow = new_follow
 	
+func get_follow():
+	return self.follow
+	
 func set_dist(new_dist: float):
 	dist = new_dist
 	
-func connect_car(car: String):
-	$Joint.node_b = NodePath("../../" + car)
-
 func is_loco():
 	return loco
 	
@@ -84,11 +89,12 @@ func set_total_force(tot_force: float):
 	total_force = tot_force
 	
 func set_train_mass(train_mass: float):
-	bak_mass = mass
-	mass = train_mass
+	#bak_mass = mass
+	#mass = train_mass
+	pass
 	
 func reset_train_mass():
-	mass = bak_mass
+	#mass = bak_mass
 	pass
 
 var prev_pos : Vector2 = Vector2.ZERO
@@ -98,6 +104,7 @@ func _integrate_forces(state):
 	var clothest_offset = path.curve.get_closest_offset(position)
 	if abs(follow.progress - clothest_offset) < 100: #FIX curve cross /near section skip!!!
 		follow.progress = clothest_offset
+		position = follow.position
 		
 	#FIX: small fix for position displacing
 	if abs(position.x - follow.position.x) > 1.0:
@@ -108,10 +115,16 @@ func _integrate_forces(state):
 		print(name, " Y")
 		#TODO: calculate correct angular velocity!
 		
+	#TODO: calculate correct angular velocity!
+	rotation = follow.rotation + int(flip) * PI
 		
+	#TODO: correctly calculate direction forward the line or backward
 	var dir = 1
-	if abs(abs(state.linear_velocity.angle()) - abs(rotation)) > PI/2:
+	if abs(state.linear_velocity.angle_to(Vector2.RIGHT.rotated(rotation))) > PI/2:
 		dir = -1
+	if flip:
+		dir *= -1
+	
 	var vel = state.linear_velocity.length()
 	#if name == "Loco":
 		#print(name, " Vel: ", state.linear_velocity.angle(), " rot: ", follow.rotation)
@@ -132,21 +145,18 @@ func _integrate_forces(state):
 	prev_pos = position
 	state.linear_velocity = target_dist / state.step
 	
-	#TODO: calculate correct angular velocity!
-	rotation = follow.rotation + int(flip) * PI
+
 	#var orig : Vector2 = state.transform.get_origin()
 	$Line2D.points[1] = linear_velocity.rotated(-rotation)
 	
 
 	#apply new force to an active car
 	var tot_force : Vector2 = Vector2.ZERO
-	if vel > DRAG_FORCE_SPEED:
-		tot_force += drag_from_vel(vel)
+	#if vel > DRAG_FORCE_SPEED:
+		#tot_force += drag_from_vel(vel)
 		#FIXME: drag direction!!!
 	if active:
 		tot_force += Vector2(throttle_level * engine_force, 0) * direction
-		#state.linear_velocity = Vectwwor2(1000,0) * state.step
-		print("PRESSED", state.step)
 		state.apply_central_force(tot_force.rotated(2*PI + rotation))
 	else:
 		#was set_constant_force
@@ -156,7 +166,8 @@ func _integrate_forces(state):
 	#state.integrate_forces()
 	
 func _physics_process(delta):
-	print(name, " - ", linear_velocity)
+	#print(name, " - ", linear_velocity)
+	pass
 
 
 func _on_body_entered(body):
