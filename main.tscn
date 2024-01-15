@@ -39,6 +39,7 @@ position = Vector2(271.455, 179.245)
 
 [node name="Car" parent="Train" instance=ExtResource("3_dtup8")]
 position = Vector2(494.525, 154.437)
+flip = true
 
 [node name="Boxes" type="Node2D" parent="."]
 
@@ -46,7 +47,7 @@ position = Vector2(494.525, 154.437)
 position = Vector2(454, 213)
 
 [node name="Box" parent="Boxes" instance=ExtResource("4_66pgm")]
-position = Vector2(446, 181)
+position = Vector2(433, 154)
 
 [node name="Box2" parent="Boxes" instance=ExtResource("4_66pgm")]
 position = Vector2(998, 334)

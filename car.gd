@@ -33,6 +33,7 @@ const DIRECTION_BACKWARD = -1
 var bak_mass : float = 0.0
 var total_force : float = 0.0
 var leader : bool = false
+var train_force_part : float = 0.0
 
 func _ready():
 	self.follow = PathFollow2D.new()
@@ -97,6 +98,18 @@ func reset_train_mass():
 	#mass = bak_mass
 	pass
 
+func get_engine_force(throttle_pos: float):
+	return engine_force * throttle_pos
+		
+func get_main_loco_dir():
+	if flip:
+		return direction * -1.0
+	else:
+		return direction
+		
+func set_train_force_part(force: float):
+	train_force_part = force
+
 var prev_pos : Vector2 = Vector2.ZERO
 func _integrate_forces(state):
 		#TODO: generate self curve!!!
@@ -155,13 +168,9 @@ func _integrate_forces(state):
 	#if vel > DRAG_FORCE_SPEED:
 		#tot_force += drag_from_vel(vel)
 		#FIXME: drag direction!!!
-	if active:
-		tot_force += Vector2(throttle_level * engine_force, 0) * direction
-		state.apply_central_force(tot_force.rotated(2*PI + rotation))
-	else:
-		#was set_constant_force
-		state.apply_central_force(tot_force)
-	$Line2D2.points[1] = tot_force
+	tot_force += Vector2(train_force_part, 0)
+	state.apply_central_force(tot_force.rotated(follow.rotation))
+	$Line2D2.points[1] = tot_force.rotated(rotation)
 	
 	#state.integrate_forces()
 	

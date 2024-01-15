@@ -74,9 +74,19 @@ func calculate_path(node: RigidBody2D):
 	
 func _physics_process(delta):
 	if Input.is_key_pressed(KEY_W) and lead_loco:
-		set_throttle(1.0)
+		var total_force : float = 0.0
+		total_force += lead_loco.get_engine_force(1.0) #TODO: every engine
+		var force_on_one_mass = total_force / train_mass * lead_loco.get_main_loco_dir()
+		for child in get_children():
+			if child is Car:
+				child.set_train_force_part(child.mass * force_on_one_mass)
+				
+		#set_throttle(1.0)
 	else:
-		set_throttle(0.0)
+		for child in get_children():
+			if child is Car:
+				child.set_train_force_part(0.0)
+		#set_throttle(0.0)
  			
 	var all_sleep = true
 	for child in get_children():
