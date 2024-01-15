@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://dyl56jenlcs68"]
+[gd_scene load_steps=9 format=3 uid="uid://dyl56jenlcs68"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_uhihj"]
 [ext_resource type="PackedScene" uid="uid://drjpfjr2ige62" path="res://drag_point.tscn" id="3_0k3cr"]
@@ -13,7 +13,9 @@ _data = {
 point_count = 19
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_icb28"]
-size = Vector2(27.0183, 7.49353)
+size = Vector2(49.2834, 7.49353)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_h5yi5"]
 
 [node name="main" type="Node2D"]
 script = ExtResource("1_uhihj")
@@ -30,16 +32,21 @@ curve = SubResource("Curve2D_mpf2r")
 can_sleep = false
 
 [node name="Loco" parent="Train" instance=ExtResource("3_dtup8")]
-position = Vector2(315, 148)
+position = Vector2(317, 172)
 rotation = -0.190726
+mass = 2.54
 loco = true
+engine_force = 500.0
 
 [node name="Car2" parent="Train" instance=ExtResource("3_dtup8")]
 position = Vector2(271.455, 179.245)
+mass = 0.68
 
 [node name="Car" parent="Train" instance=ExtResource("3_dtup8")]
-position = Vector2(494.525, 154.437)
+position = Vector2(363, 161)
+mass = 9.61
 flip = true
+engine_force = 500.0
 
 [node name="Boxes" type="Node2D" parent="."]
 
@@ -47,7 +54,7 @@ flip = true
 position = Vector2(454, 213)
 
 [node name="Box" parent="Boxes" instance=ExtResource("4_66pgm")]
-position = Vector2(433, 154)
+position = Vector2(433, 197)
 
 [node name="Box2" parent="Boxes" instance=ExtResource("4_66pgm")]
 position = Vector2(998, 334)
@@ -80,6 +87,15 @@ position = Vector2(976, 367)
 position = Vector2(4.45386, -4.4429)
 rotation = 0.677188
 shape = SubResource("RectangleShape2D_icb28")
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="."]
+position = Vector2(976, 367)
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D2"]
+position = Vector2(-738, -181)
+rotation = 0.677188
+scale = Vector2(1, 1)
+shape = SubResource("RectangleShape2D_h5yi5")
 
 [node name="OptionButton" type="OptionButton" parent="."]
 offset_left = 1041.0

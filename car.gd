@@ -17,7 +17,7 @@ var follow : PathFollow2D = null
 var active : bool = false #uses engine
 var dist : float = 0.0
 @export var loco : bool = false #can push/pull the train
-@export var engine_force : float = 100.0
+@export var engine_force : float = 300.0
 var throttle_level : float = 0.0
 const DRAG_FORCE_SPEED = 10 #velocity where drag is on
 const DRAG_FLATNESS = 300   #moar x - more flat drag
@@ -170,7 +170,10 @@ func _integrate_forces(state):
 		#FIXME: drag direction!!!
 	tot_force += Vector2(train_force_part, 0)
 	state.apply_central_force(tot_force.rotated(follow.rotation))
-	$Line2D2.points[1] = tot_force.rotated(rotation)
+	if flip:
+		$Line2D2.points[1] = Vector2(train_force_part * -1, 0)
+	else:
+		$Line2D2.points[1] = Vector2(train_force_part, 0)
 	
 	#state.integrate_forces()
 	

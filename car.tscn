@@ -1,13 +1,16 @@
-[gd_scene load_steps=5 format=3 uid="uid://d4em25qe6joub"]
+[gd_scene load_steps=6 format=3 uid="uid://d4em25qe6joub"]
 
 [ext_resource type="Script" path="res://car.gd" id="1_budfa"]
 [ext_resource type="Texture2D" uid="uid://dghdo7pwjry8l" path="res://icon.svg" id="2_521kt"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_w6ryj"]
-size = Vector2(20, 12)
+size = Vector2(32, 12)
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_e2v04"]
-radius = 4.0
+[sub_resource type="CircleShape2D" id="CircleShape2D_seckm"]
+radius = 2.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2bltx"]
+size = Vector2(3, 12)
 
 [node name="Car" type="RigidBody2D"]
 sleeping = true
@@ -18,13 +21,21 @@ linear_damp_mode = 1
 linear_damp = 0.5
 script = ExtResource("1_budfa")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="Hull" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_w6ryj")
+
+[node name="FrontBuff" type="CollisionShape2D" parent="."]
+position = Vector2(18, 0)
+shape = SubResource("CircleShape2D_seckm")
+
+[node name="BackBuff" type="CollisionShape2D" parent="."]
+position = Vector2(-18, 0)
+shape = SubResource("CircleShape2D_seckm")
 
 [node name="Icon" type="Sprite2D" parent="."]
 position = Vector2(0.0393739, 0.0393707)
 rotation = 1.5708
-scale = Vector2(0.095047, 0.130728)
+scale = Vector2(0.095, 0.246)
 texture = ExtResource("2_521kt")
 
 [node name="Line2D" type="Line2D" parent="."]
@@ -38,18 +49,16 @@ width = 2.0
 default_color = Color(0, 0.827451, 0.823529, 1)
 
 [node name="FrontSensor" type="Area2D" parent="."]
-position = Vector2(8, 0)
+position = Vector2(21.5, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="FrontSensor"]
-position = Vector2(2, 0)
-shape = SubResource("CircleShape2D_e2v04")
+shape = SubResource("RectangleShape2D_2bltx")
 
 [node name="BackSensor" type="Area2D" parent="."]
-position = Vector2(-8, 0)
+position = Vector2(-21.5, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BackSensor"]
-position = Vector2(-2, 0)
-shape = SubResource("CircleShape2D_e2v04")
+shape = SubResource("RectangleShape2D_2bltx")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_body_exited"]
