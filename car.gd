@@ -8,6 +8,8 @@ signal velocity_stabilized(car: RigidBody2D, new_velocity: Vector2)
 signal dist_ready(dist: float)
 signal leader_chaned(obj: RigidBody2D)
 
+@export var width : float = 32.0
+@export var height : float = 12.0
 @export var flip : bool = false #flip rotation 10+pi
 @export var direction : int = -1
 
@@ -115,7 +117,7 @@ func _integrate_forces(state):
 		#TODO: generate self curve!!!
 	#Change follow position after collisions and movements
 	var clothest_offset = path.curve.get_closest_offset(position)
-	if abs(follow.progress - clothest_offset) < 100: #FIX curve cross /near section skip!!!
+	if abs(follow.progress - clothest_offset) < 100000000: #FIX curve cross /near section skip!!!
 		follow.progress = clothest_offset
 		position = follow.position
 		

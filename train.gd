@@ -140,3 +140,20 @@ func set_path(path: Path2D) -> void:
 			#move follow
 			child_follow.progress = path.curve.get_closest_offset(child.position)
 
+func flip_curve():
+	var old_curve : Curve2D = $Path.curve
+	var new_curve : Curve2D = Curve2D.new()
+	new_curve.bake_interval = old_curve.bake_interval
+	var pos : Vector2
+	var _in : Vector2
+	var out: Vector2
+	for i in range(old_curve.point_count):
+		pos = old_curve.get_point_position(i)
+		_in = old_curve.get_point_in(i)
+		out = old_curve.get_point_out(i)
+		new_curve.add_point(pos, out, _in, 0)
+	$Path.curve = new_curve
+	
+	for child in get_children():
+		if child is Car:
+			child.flip = not child.flip

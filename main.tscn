@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://dyl56jenlcs68"]
+[gd_scene load_steps=10 format=3 uid="uid://dyl56jenlcs68"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_uhihj"]
 [ext_resource type="PackedScene" uid="uid://drjpfjr2ige62" path="res://drag_point.tscn" id="3_0k3cr"]
 [ext_resource type="PackedScene" uid="uid://d4em25qe6joub" path="res://car.tscn" id="3_dtup8"]
 [ext_resource type="PackedScene" uid="uid://cmn6ailxye7sm" path="res://box.tscn" id="4_66pgm"]
+[ext_resource type="PackedScene" uid="uid://ci83vcibic810" path="res://tests/segment_picker.tscn" id="6_dqwr5"]
 [ext_resource type="PackedScene" uid="uid://dttyl3mwbdphs" path="res://train.tscn" id="6_q2t3g"]
 
 [sub_resource type="Curve2D" id="Curve2D_mpf2r"]
@@ -31,6 +32,12 @@ curve = SubResource("Curve2D_mpf2r")
 [node name="Train" parent="." instance=ExtResource("6_q2t3g")]
 can_sleep = false
 
+[node name="Car" parent="Train" instance=ExtResource("3_dtup8")]
+position = Vector2(363, 161)
+mass = 9.61
+flip = true
+engine_force = 500.0
+
 [node name="Loco" parent="Train" instance=ExtResource("3_dtup8")]
 position = Vector2(317, 172)
 rotation = -0.190726
@@ -41,12 +48,6 @@ engine_force = 500.0
 [node name="Car2" parent="Train" instance=ExtResource("3_dtup8")]
 position = Vector2(271.455, 179.245)
 mass = 0.68
-
-[node name="Car" parent="Train" instance=ExtResource("3_dtup8")]
-position = Vector2(363, 161)
-mass = 9.61
-flip = true
-engine_force = 500.0
 
 [node name="Boxes" type="Node2D" parent="."]
 
@@ -94,7 +95,6 @@ position = Vector2(976, 367)
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D2"]
 position = Vector2(-738, -181)
 rotation = 0.677188
-scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_h5yi5")
 
 [node name="OptionButton" type="OptionButton" parent="."]
@@ -120,5 +120,20 @@ max_value = 1.0
 step = 0.05
 alignment = 2
 
+[node name="FlipCurve" type="Button" parent="."]
+offset_left = 1051.0
+offset_top = 78.0
+offset_right = 1136.0
+offset_bottom = 109.0
+text = "Flip Curve"
+
+[node name="Segment_picker" parent="." instance=ExtResource("6_dqwr5")]
+anchors_preset = 0
+offset_left = 615.0
+offset_top = 191.0
+offset_right = 623.0
+offset_bottom = 199.0
+
 [connection signal="item_selected" from="OptionButton" to="." method="_on_option_button_item_selected"]
 [connection signal="value_changed" from="SpinBox" to="." method="_on_spin_box_value_changed"]
+[connection signal="pressed" from="FlipCurve" to="." method="_on_flip_curve_pressed"]

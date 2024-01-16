@@ -107,3 +107,19 @@ func _on_option_button_item_selected(index):
 	$Train.set_direction(index -1)
 	#$Train/Loco.direction = index -1
 	pass # Replace with function body.
+
+
+func _on_flip_curve_pressed():
+	var old_curve : Curve2D = $Path2D.curve
+	var new_curve : Curve2D = Curve2D.new()
+	new_curve.bake_interval = old_curve.bake_interval
+	var pos : Vector2
+	var _in : Vector2
+	var out: Vector2
+	for i in range(old_curve.point_count):
+		pos = old_curve.get_point_position(i)
+		_in = old_curve.get_point_in(i)
+		out = old_curve.get_point_out(i)
+		new_curve.add_point(pos, out, _in, 0)
+	$Path2D.curve = new_curve
+	$Train.flip_curve()
