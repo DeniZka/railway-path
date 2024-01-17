@@ -21,15 +21,17 @@ size = Vector2(49.2834, 7.49353)
 [node name="main" type="Node2D"]
 script = ExtResource("1_uhihj")
 
-[node name="railways" type="Node" parent="."]
+[node name="Railways" type="Node2D" parent="."]
 
-[node name="Path2D" type="Path2D" parent="railways"]
+[node name="Path2D" type="Path2D" parent="Railways"]
 curve = SubResource("Curve2D_mpf2r")
 
-[node name="Line2D" type="Line2D" parent="railways/Path2D"]
+[node name="Line2D" type="Line2D" parent="Railways/Path2D"]
 width = 3.0
 default_color = Color(0.392157, 0.392157, 0.392157, 1)
 antialiased = true
+
+[node name="_railways" type="Node" parent="."]
 
 [node name="Train" parent="." instance=ExtResource("6_q2t3g")]
 can_sleep = false

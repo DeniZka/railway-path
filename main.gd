@@ -6,8 +6,8 @@ extends Node2D
 
 const DIVIDER = 6.0
 
-@onready var path : Path2D = $railways/Path2D
-@onready var line : Line2D = $railways/Path2D/Line2D
+@onready var path : Path2D = $Railways/Path2D
+@onready var line : Line2D = $Railways/Path2D/Line2D
 @onready var points : Node2D = $DragPoints
 @onready var drag_poin_scene : PackedScene = load("res://drag_point.tscn")
 @onready var train : Node2D =  $Train
@@ -16,6 +16,7 @@ const DIVIDER = 6.0
 var tension = 1.0
 
 func _ready():
+	Railways.parse_railways($Railways)
 	$Segment_picker.add_path(path)
 	$Train.set_path(path)
 	loco.active = true

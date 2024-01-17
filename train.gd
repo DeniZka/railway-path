@@ -23,6 +23,7 @@ var watch_car_in_collision: RigidBody2D = null
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	Railways.railwais_updated.connect(_on_railways_updated)
 	#TODO: except cars for cars in train conllision
 	if ! path.curve:
 		path.curve = Curve2D.new()
@@ -39,6 +40,8 @@ func _ready():
 			car.set_train_mass(train_mass)
 			#TODO: reset train mass due disconect car from train
 	
+func _on_railways_updated():
+	pass
 	
 func set_force(level: float):
 	rudder_pos = level
