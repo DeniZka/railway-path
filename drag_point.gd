@@ -6,6 +6,7 @@ var mode = MODE_IDLE
 var index = 0
 
 signal point_moved(idx: int, pos: Vector2)
+
 func set_index(idx: int):
 	index = idx
 

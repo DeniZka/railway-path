@@ -6,9 +6,8 @@ extends Node2D
 
 const DIVIDER = 6.0
 
-@onready var path : Path2D = $Path2D
-@onready var follow : PathFollow2D = $Path2D/TrainPath
-@onready var line : Line2D = $Line2D
+@onready var path : Path2D = $railways/Path2D
+@onready var line : Line2D = $railways/Path2D/Line2D
 @onready var points : Node2D = $DragPoints
 @onready var drag_poin_scene : PackedScene = load("res://drag_point.tscn")
 @onready var train : Node2D =  $Train
@@ -17,24 +16,25 @@ const DIVIDER = 6.0
 var tension = 1.0
 
 func _ready():
-	$Train.set_path($Path2D)
+	$Segment_picker.add_path(path)
+	$Train.set_path(path)
 	loco.active = true
 	#loco.add_collision_exception_with($Train/Car) #TODO: except all in train
 	loco.direction = 1
 	var in_ : Vector2 = path.curve.get_point_in(0)
-	var pt2 : Vector2 = $Path2D.curve.get_point_position(2)
-	var pt2i : Vector2= $Path2D.curve.get_point_in(2)
-	var pt2o : Vector2= $Path2D.curve.get_point_out(2)
-	$Path2D.curve.add_point(pt2, Vector2.ZERO, Vector2.ZERO, 3)
-	$Path2D.curve.set_point_in(3, pt2i)
-	$Path2D.curve.set_point_out(3, pt2o)
+	var pt2 : Vector2 = path.curve.get_point_position(2)
+	var pt2i : Vector2= path.curve.get_point_in(2)
+	var pt2o : Vector2= path.curve.get_point_out(2)
+	path.curve.add_point(pt2, Vector2.ZERO, Vector2.ZERO, 3)
+	path.curve.set_point_in(3, pt2i)
+	path.curve.set_point_out(3, pt2o)
 	
-	$Path2D.curve.add_point(pt2, Vector2.ZERO, Vector2.ZERO, 2)
-	$Path2D.curve.set_point_in(2, pt2i)
-	$Path2D.curve.set_point_out(2, pt2o)
+	path.curve.add_point(pt2, Vector2.ZERO, Vector2.ZERO, 2)
+	path.curve.set_point_in(2, pt2i)
+	path.curve.set_point_out(2, pt2o)
 	
 	#$Path2D.curve.set_point_position(3, Vector2.INF)
-	$Line2D.points = $Path2D.curve.get_baked_points()
+	line.points = path.curve.get_baked_points()
 	
 	
 	line.points = path.curve.get_baked_points()

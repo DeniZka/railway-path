@@ -3,17 +3,13 @@
 [ext_resource type="Script" path="res://tests/segment_picker.gd" id="1_qf8oo"]
 
 [sub_resource type="Curve2D" id="Curve2D_v1020"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 62, 24, 0, 0, 0, 0, 0, 0)
+}
+point_count = 2
 
-[node name="Segment_picker" type="Control"]
-layout_mode = 3
-offset_right = 8.0
-offset_bottom = 7.99999
-pivot_offset = Vector2(4, 4)
+[node name="SegmentPicker" type="Node2D"]
 script = ExtResource("1_qf8oo")
-
-[node name="Polygon2D" type="Polygon2D" parent="."]
-color = Color(0.65098, 0.443137, 0.662745, 1)
-polygon = PackedVector2Array(0, 0, 8, 0, 8, 8, 0, 8)
 
 [node name="Path2D" type="Path2D" parent="."]
 curve = SubResource("Curve2D_v1020")
@@ -21,4 +17,14 @@ curve = SubResource("Curve2D_v1020")
 [node name="Line2D" type="Line2D" parent="."]
 default_color = Color(0.603922, 0.352941, 1, 0.494118)
 
-[connection signal="gui_input" from="." to="." method="_on_gui_input"]
+[node name="Segment_picker" type="Control" parent="."]
+layout_mode = 3
+offset_right = 8.0
+offset_bottom = 7.99999
+pivot_offset = Vector2(4, 4)
+
+[node name="Polygon2D" type="Polygon2D" parent="Segment_picker"]
+color = Color(0.65098, 0.443137, 0.662745, 1)
+polygon = PackedVector2Array(0, 0, 8, 0, 8, 8, 0, 8)
+
+[connection signal="gui_input" from="Segment_picker" to="." method="_on_segment_picker_gui_input"]

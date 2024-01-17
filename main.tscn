@@ -21,13 +21,15 @@ size = Vector2(49.2834, 7.49353)
 [node name="main" type="Node2D"]
 script = ExtResource("1_uhihj")
 
-[node name="Line2D" type="Line2D" parent="."]
+[node name="railways" type="Node" parent="."]
+
+[node name="Path2D" type="Path2D" parent="railways"]
+curve = SubResource("Curve2D_mpf2r")
+
+[node name="Line2D" type="Line2D" parent="railways/Path2D"]
 width = 3.0
 default_color = Color(0.392157, 0.392157, 0.392157, 1)
 antialiased = true
-
-[node name="Path2D" type="Path2D" parent="."]
-curve = SubResource("Curve2D_mpf2r")
 
 [node name="Train" parent="." instance=ExtResource("6_q2t3g")]
 can_sleep = false
@@ -128,11 +130,6 @@ offset_bottom = 109.0
 text = "Flip Curve"
 
 [node name="Segment_picker" parent="." instance=ExtResource("6_dqwr5")]
-anchors_preset = 0
-offset_left = 615.0
-offset_top = 191.0
-offset_right = 623.0
-offset_bottom = 199.0
 
 [connection signal="item_selected" from="OptionButton" to="." method="_on_option_button_item_selected"]
 [connection signal="value_changed" from="SpinBox" to="." method="_on_spin_box_value_changed"]

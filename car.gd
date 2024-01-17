@@ -117,8 +117,8 @@ func _integrate_forces(state):
 		#TODO: generate self curve!!!
 	#Change follow position after collisions and movements
 	var clothest_offset = path.curve.get_closest_offset(position)
-	if abs(follow.progress - clothest_offset) < 100000000: #FIX curve cross /near section skip!!!
-		follow.progress = clothest_offset
+	if abs(follow.progress - clothest_offset) < 100000000: #FIX curve cross /near section skip!!! #FIXME: baypass due to flip path
+		follow.progress = clothest_offset  
 		position = follow.position
 		
 	#FIX: small fix for position displacing
