@@ -14,8 +14,8 @@ signal leader_chaned(obj: RigidBody2D)
 @export var direction : int = -1
 
 
-var path : Path2D =null
-var follow : PathFollow2D = null
+#var path : Path2D =null
+#var follow : PathFollow2D = null
 var active : bool = false #uses engine
 var dist : float = 0.0
 @export var loco : bool = false #can push/pull the train
@@ -37,22 +37,39 @@ var total_force : float = 0.0
 var leader : bool = false
 var train_force_part : float = 0.0
 
+var car_is_ready = false
+@onready var path = $Path
+@onready var follow = $Path/PathFollow
+var rail_segment : RailwaySegment = null
+
 func _ready():
+	
+	car_is_ready = false
+	Railways.railwais_ready.connect(_on_railwais_ready)
+	
+	
 	self.follow = PathFollow2D.new()
 	self.follow.cubic_interp = false #NOTE: moar smooth move
 	follow.position = position
+	
+func set_rail_segment(segment : RailwaySegment):
+	rail_segment = segment
+	rail_segment.set_update_distance(width / 2)
+	
+func _on_railwais_ready():
+	pass
 
 func set_leader(yes: bool):
 	leader = yes
 	leader_chaned.emit(self)
 
-func set_follow(new_follow: PathFollow2D):
-	position = new_follow.position
-	rotation = new_follow.rotation + int(flip) * PI
-	follow = new_follow
-	
-func get_follow():
-	return self.follow
+#func set_follow(new_follow: PathFollow2D):
+	#position = new_follow.position
+	#rotation = new_follow.rotation + int(flip) * PI
+	#follow = new_follow
+	#
+#func get_follow():
+	#return self.follow
 	
 func set_dist(new_dist: float):
 	dist = new_dist
@@ -114,24 +131,13 @@ func set_train_force_part(force: float):
 
 var prev_pos : Vector2 = Vector2.ZERO
 func _integrate_forces(state):
+	if not rail_segment:
+		return
 		#TODO: generate self curve!!!
 	#Change follow position after collisions and movements
-	var clothest_offset = path.curve.get_closest_offset(position)
-	if abs(follow.progress - clothest_offset) < 100000000: #FIX curve cross /near section skip!!! #FIXME: baypass due to flip path
-		follow.progress = clothest_offset  
-		position = follow.position
-		
-	#FIX: small fix for position displacing
-	if abs(position.x - follow.position.x) > 1.0:
-		position.x = follow.position.x
-		print(name, " X")
-	if abs(position.y - follow.position.y) > 1.0:
-		position.y = follow.position.y
-		print(name, " Y")
-		#TODO: calculate correct angular velocity!
-		
-	#TODO: calculate correct angular velocity!
-	rotation = follow.rotation + int(flip) * PI
+	position = rail_segment.correct_position(position)
+	rotation = rail_segment.get_follow_rotation() + int(flip) * PI
+	
 		
 	#TODO: correctly calculate direction forward the line or backward
 	var dir = 1
@@ -147,14 +153,9 @@ func _integrate_forces(state):
 	if active:
 		if break_state > 0.0:
 			vel = break_vel(vel)
+	
 
-	var must_move_dist = vel * state.step * dir
-	#print(name, " ", must_move_dist)
-	var follow_position = follow.position
-	#print(name, " ", must_move_dist)
-	follow.progress += must_move_dist
-	#change linear_velocity
-	var target_dist = (follow.position - follow_position) #FIXME: USE position instead follow_position rice error
+	var target_dist = rail_segment.slide_to_distance(vel * state.step * dir)
 	#print("%0.2f, %0.2f" % [must_move_dist, target_dist.length()])
 	#print("dist: %0.2f" % (position - prev_pos).length())
 	prev_pos = position
@@ -171,11 +172,12 @@ func _integrate_forces(state):
 		#tot_force += drag_from_vel(vel)
 		#FIXME: drag direction!!!
 	tot_force += Vector2(train_force_part, 0)
-	state.apply_central_force(tot_force.rotated(follow.rotation))
+	state.apply_central_force(tot_force.rotated(rail_segment.get_follow_rotation()))
 	if flip:
 		$Line2D2.points[1] = Vector2(train_force_part * -1, 0)
 	else:
 		$Line2D2.points[1] = Vector2(train_force_part, 0)
+		
 	
 	#state.integrate_forces()
 	
@@ -185,8 +187,21 @@ func _physics_process(delta):
 
 
 func _on_body_entered(body):
-	velocity_changed.emit(self, linear_velocity)
+	if body is Car:
+		velocity_changed.emit(self, linear_velocity)
 
 
 func _on_body_exited(body):
 	velocity_stabilized.emit(self, linear_velocity)
+
+
+func _on_body_shape_entered(body_rid, body, body_shape_index, local_shape_index):
+	
+	var ownr = body.shape_owner_get_owner(body.shape_find_owner(body_shape_index))
+	#ownr = body.shape_find_owner(body_shape_index)
+	print(name, " ", body, " ", ownr)
+	pass # Replace with function body.
+
+
+func _on_body_shape_exited(body_rid, body, body_shape_index, local_shape_index):
+	pass # Replace with function body.

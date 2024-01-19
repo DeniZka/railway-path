@@ -23,10 +23,9 @@ var watch_car_in_collision: RigidBody2D = null
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	Railways.railwais_updated.connect(_on_railways_updated)
 	#TODO: except cars for cars in train conllision
-	if ! path.curve:
-		path.curve = Curve2D.new()
+	Railways.railwais_ready.connect(_on_railwais_ready)
+
 	for car in get_children():
 		if car is RigidBody2D:
 			train_mass += car.mass
@@ -40,8 +39,52 @@ func _ready():
 			car.set_train_mass(train_mass)
 			#TODO: reset train mass due disconect car from train
 	
-func _on_railways_updated():
-	pass
+func _on_railwais_ready():
+	#collect curves segvents and make own way
+	#var train_pts : RailwayNearestPart = null
+	#for car in get_children():
+		#if car is Car:
+			#if train_pts == null:
+				#train_pts = Railways.get_nearest_points(car.position)
+			#else:
+				#if not train_pts.append_part(Railways.get_nearest_points(car.position)):
+					##car.flip = not car.flip
+					#pass
+				
+			#var car_pts : Dictionary = 
+			#if car_pts.is_empty():
+				#print("Eroor: NO RAIL FOR car ", car)
+				#return
+			##check path alreadi in dict
+			#var car_path = car_pts.keys()[0]
+			#if car_path in train_pts:
+				##recalculate min and max points
+				#if car_pts[car_path]["pre"] < train_pts[car_path]["pre"]:
+					#train_pts[car_path]["pre"] = car_pts[car_path]["pre"]
+				#if car_pts[car_path]["post"] > train_pts[car_path]["post"]:
+					#train_pts[car_path]["post"] = car_pts[car_path]["post"]
+				#train_pts[car_path]["cars"].append(car) #add car in list for Path
+			#else: #new Path
+				#car_pts[car_path]["cars"] = [car]
+				#train_pts.merge(car_pts)
+				
+	#generate curve for path
+	#var net_paths : Array[Path2D] = train_pts.keys()
+	##use first path as base for trains path
+	#for i in range(train_pts[net_paths[0]]["pre"], train_pts[net_paths[0]]["post"] + 1):
+		##Path2D
+		#path.curve.add_point(
+			#net_paths[0].get_point_position(i), 
+			#net_paths[0].get_point_in(i),
+			#net_paths[0].get_point_out(i)
+			#)
+	#net_paths.remove_at(0)
+	##find connected to main curve branches
+	#while net_paths.size() > 0:
+		##is_connected_to_start(net_paths[0], train_pts[net_paths[0]]["pre"])
+		#pass
+	
+	print("OK")
 	
 func set_force(level: float):
 	rudder_pos = level
@@ -78,7 +121,9 @@ func calculate_path(node: RigidBody2D):
 func _physics_process(delta):
 	if Input.is_key_pressed(KEY_W) and lead_loco:
 		var total_force : float = 0.0
-		total_force += lead_loco.get_engine_force(1.0) #TODO: every engine
+		for child in get_children():
+			if child is Car and child.loco:
+				total_force += child.get_engine_force(1.0) #TODO: every engine
 		var force_on_one_mass = total_force / train_mass * lead_loco.get_main_loco_dir()
 		for child in get_children():
 			if child is Car:
@@ -100,8 +145,6 @@ func _physics_process(delta):
 				break
 			#print("TRAIN---:", name, child.linear_velocity)
 	#clear path if every body is sleeping
-	if all_sleep :
-		$Path.curve.clear_points()
 	
 func _on_car_collision_velocity_changed(car: RigidBody2D, vel: Vector2):
 	#NOTE: after collision the car velicity is changed instead of rest of carriges in train
@@ -128,20 +171,20 @@ func set_throttle(throttle_level):
 	#rudder_tween.tween_property(lead_loco, "throttle_level", thrust_lvl, 1.0)
 	lead_loco.throttle_level = throttle_level
 
-#set path along what train and it cars can move
-func set_path(path: Path2D) -> void:
-	self.path = path
-	for child in get_children():
-		if child is Car:
-			#setup new path for Car follow
-			child.path = path #temp
-			var child_follow : PathFollow2D = child.get_follow()
-			if child_follow.get_parent() == null:
-				path.add_child(child_follow)
-			else:
-				child_follow.reparent(path)
-			#move follow
-			child_follow.progress = path.curve.get_closest_offset(child.position)
+##set path along what train and it cars can move
+#func set_path(path: Path2D) -> void:
+	#self.path = path
+	#for child in get_children():
+		#if child is Car:
+			##setup new path for Car follow
+			#child.path = path #temp
+			#var child_follow : PathFollow2D = child.get_follow()
+			#if child_follow.get_parent() == null:
+				#path.add_child(child_follow)
+			#else:
+				#child_follow.reparent(path)
+			##move follow
+			#child_follow.progress = path.curve.get_closest_offset(child.position)
 
 func flip_curve():
 	var old_curve : Curve2D = $Path.curve

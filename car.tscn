@@ -15,7 +15,7 @@ size = Vector2(3, 12)
 [node name="Car" type="RigidBody2D"]
 sleeping = true
 lock_rotation = true
-max_contacts_reported = 1
+max_contacts_reported = 3
 contact_monitor = true
 linear_damp_mode = 1
 linear_damp = 0.5
@@ -62,3 +62,5 @@ shape = SubResource("RectangleShape2D_2bltx")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_body_exited"]
+[connection signal="body_shape_entered" from="." to="." method="_on_body_shape_entered"]
+[connection signal="body_shape_exited" from="." to="." method="_on_body_shape_exited"]

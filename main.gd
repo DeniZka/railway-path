@@ -17,8 +17,9 @@ var tension = 1.0
 
 func _ready():
 	Railways.parse_railways($Railways)
+	Railways.parse_cars(self)
 	$Segment_picker.add_path(path)
-	$Train.set_path(path)
+	#$Train.set_path(path)
 	loco.active = true
 	#loco.add_collision_exception_with($Train/Car) #TODO: except all in train
 	loco.direction = 1
@@ -97,7 +98,13 @@ func _on_point_moved(idx: int, pos: Vector2):
 	line.points = path.curve.get_baked_points()
 	
 
-
+func _input(event):
+	global_transform
+	if Input.is_key_pressed(KEY_W):
+		OptionButton
+		$Car3.set_train_force_part(($OptionButton.selected - 1) * 50)
+	else:
+		$Car3.set_train_force_part(0)
 
 func _on_spin_box_value_changed(value):
 	$Train/Loco.set_break(value)
@@ -111,7 +118,7 @@ func _on_option_button_item_selected(index):
 
 
 func _on_flip_curve_pressed():
-	var old_curve : Curve2D = $Path2D.curve
+	var old_curve : Curve2D = path.curve
 	var new_curve : Curve2D = Curve2D.new()
 	new_curve.bake_interval = old_curve.bake_interval
 	var pos : Vector2
@@ -122,5 +129,5 @@ func _on_flip_curve_pressed():
 		_in = old_curve.get_point_in(i)
 		out = old_curve.get_point_out(i)
 		new_curve.add_point(pos, out, _in, 0)
-	$Path2D.curve = new_curve
+	path.curve = new_curve
 	$Train.flip_curve()

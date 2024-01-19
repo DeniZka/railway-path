@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://dyl56jenlcs68"]
+[gd_scene load_steps=11 format=3 uid="uid://dyl56jenlcs68"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_uhihj"]
 [ext_resource type="PackedScene" uid="uid://drjpfjr2ige62" path="res://drag_point.tscn" id="3_0k3cr"]
@@ -18,6 +18,12 @@ size = Vector2(49.2834, 7.49353)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_h5yi5"]
 
+[sub_resource type="Curve2D" id="Curve2D_3p4qy"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 286.882, 121.916, 0, 0, 0, 0, 395, 14)
+}
+point_count = 2
+
 [node name="main" type="Node2D"]
 script = ExtResource("1_uhihj")
 
@@ -33,25 +39,34 @@ antialiased = true
 
 [node name="_railways" type="Node" parent="."]
 
+[node name="Car3" parent="." instance=ExtResource("3_dtup8")]
+position = Vector2(89, 177)
+rotation = -1.22522
+scale = Vector2(1, 1)
+mass = 0.68
+loco = true
+
 [node name="Train" parent="." instance=ExtResource("6_q2t3g")]
 can_sleep = false
 
 [node name="Car" parent="Train" instance=ExtResource("3_dtup8")]
-position = Vector2(363, 161)
+position = Vector2(735, 206)
+rotation = 0.111701
 mass = 9.61
-flip = true
 engine_force = 500.0
 
 [node name="Loco" parent="Train" instance=ExtResource("3_dtup8")]
-position = Vector2(317, 172)
-rotation = -0.190726
+position = Vector2(317, 171)
+rotation = -0.253073
 mass = 2.54
 loco = true
 engine_force = 500.0
 
 [node name="Car2" parent="Train" instance=ExtResource("3_dtup8")]
-position = Vector2(271.455, 179.245)
+position = Vector2(365, 162)
+rotation = -0.127409
 mass = 0.68
+loco = true
 
 [node name="Boxes" type="Node2D" parent="."]
 
@@ -132,6 +147,11 @@ offset_bottom = 109.0
 text = "Flip Curve"
 
 [node name="Segment_picker" parent="." instance=ExtResource("6_dqwr5")]
+
+[node name="Path2D" type="Path2D" parent="."]
+position = Vector2(-229, 193)
+rotation = -0.575959
+curve = SubResource("Curve2D_3p4qy")
 
 [connection signal="item_selected" from="OptionButton" to="." method="_on_option_button_item_selected"]
 [connection signal="value_changed" from="SpinBox" to="." method="_on_spin_box_value_changed"]
